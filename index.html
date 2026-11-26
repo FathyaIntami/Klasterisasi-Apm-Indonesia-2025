@@ -23,8 +23,9 @@
       <div class="hidden md:flex items-center gap-6 text-sm font-medium text-slate-600">
         <a href="#ringkasan" class="hover:text-indigo-600 transition">Ringkasan</a>
         <a href="#evaluasi" class="hover:text-indigo-600 transition">Evaluasi K</a>
+        <a href="#pca-cluster" class="hover:text-indigo-600 transition">Proyeksi PCA</a>
         <a href="#profil-cluster" class="hover:text-indigo-600 transition">Profil Cluster</a>
-        <a href="#eksplorasi-provinsi" class="hover:text-indigo-600 transition">Data 38 Provinsi</a>
+        <a href="#eksplorasi-provinsi" class="hover:text-indigo-600 transition">38 Provinsi</a>
       </div>
       <a href="https://github.com/FathyaIntami/Klasterisasi-Apm-Indonesia-2025/blob/main/PSD.ipynb" target="_blank"
          class="inline-flex items-center gap-2 bg-slate-900 hover:bg-slate-800 text-white text-xs sm:text-sm font-medium px-3.5 py-2 rounded-lg transition">
@@ -64,7 +65,7 @@
         <div class="bg-white/10 backdrop-blur border border-white/10 rounded-2xl p-5">
           <p class="text-xs font-medium text-indigo-200 uppercase tracking-wider">Silhouette Score</p>
           <p class="text-3xl font-bold mt-1 text-emerald-400">0,4561</p>
-          <p class="text-xs text-slate-300 mt-1">Tertinggi di rentang K ∈ [4, 10]</p>
+          <p class="text-xs text-slate-300 mt-1">Tertinggi di rentang K &isin; [4, 10]</p>
         </div>
         <div class="bg-white/10 backdrop-blur border border-white/10 rounded-2xl p-5">
           <p class="text-xs font-medium text-indigo-200 uppercase tracking-wider">Davies-Bouldin Index</p>
@@ -77,7 +78,7 @@
 
   <main class="max-w-6xl mx-auto px-4 sm:px-6 py-12 space-y-14">
 
-    <!-- Metodologi & Catatan Teknis -->
+    <!-- Metodologi & Catatan Teknis (Simbol Matematika Sudah Rapi) -->
     <section class="bg-white rounded-2xl border border-slate-200 p-6 sm:p-8 shadow-sm">
       <h2 class="text-xl font-bold text-slate-900">Metodologi & Keputusan Prapemrosesan</h2>
       <div class="grid md:grid-cols-3 gap-6 mt-5 text-sm text-slate-600 leading-relaxed">
@@ -87,11 +88,11 @@
         </div>
         <div class="p-4 rounded-xl bg-slate-50 border border-slate-100">
           <h3 class="font-semibold text-slate-900 mb-1.5">2. Standardisasi Z-Score</h3>
-          <p>Variabel <code>APM_SD</code>, <code>APM_SMP</code>, dan <code>APM_SM</code> ditransformasi menggunakan <code>StandardScaler</code> ($\mu=0, \sigma=1$) agar perbedaan rentang nilai antarjenjang tidak mendominasi jarak Euclidean.</p>
+          <p>Variabel <code class="bg-slate-200/70 px-1.5 py-0.5 rounded text-slate-800 text-xs">APM_SD</code>, <code class="bg-slate-200/70 px-1.5 py-0.5 rounded text-slate-800 text-xs">APM_SMP</code>, dan <code class="bg-slate-200/70 px-1.5 py-0.5 rounded text-slate-800 text-xs">APM_SM</code> ditransformasi menggunakan <code class="bg-slate-200/70 px-1.5 py-0.5 rounded text-slate-800 text-xs">StandardScaler</code> (<em>&mu;</em> = 0, <em>&sigma;</em> = 1) agar perbedaan rentang nilai antarjenjang tidak mendominasi jarak Euclidean.</p>
         </div>
         <div class="p-4 rounded-xl bg-slate-50 border border-slate-100">
           <h3 class="font-semibold text-slate-900 mb-1.5">3. Seleksi Model (K = 4)</h3>
-          <p>Meskipun $K=2$ unggul secara global (0,7832), pembagiannya terlalu kasar (hanya memisah 3 vs 35 provinsi). Pada rentang $K \ge 4$, <strong>$K=4$</strong> mencatat Silhouette tertinggi (0,4561) dan DBI terendah (0,4471).</p>
+          <p>Meskipun <em>K</em> = 2 unggul secara global (0,7832), pembagiannya terlalu kasar (hanya memisah 3 vs 35 provinsi). Pada rentang <em>K</em> &ge; 4, <strong><em>K</em> = 4</strong> mencatat Silhouette tertinggi (0,4561) dan DBI terendah (0,4471).</p>
         </div>
       </div>
     </section>
@@ -118,9 +119,9 @@
               <tr class="bg-slate-100 text-slate-700 border-b border-slate-200">
                 <th class="py-2.5 px-3 font-semibold">K</th>
                 <th class="py-2.5 px-3 font-semibold">Inertia</th>
-                <th class="py-2.5 px-3 font-semibold">Silhouette ↑</th>
-                <th class="py-2.5 px-3 font-semibold">DBI ↓</th>
-                <th class="py-2.5 px-3 font-semibold">CHI ↑</th>
+                <th class="py-2.5 px-3 font-semibold">Silhouette &uarr;</th>
+                <th class="py-2.5 px-3 font-semibold">DBI &darr;</th>
+                <th class="py-2.5 px-3 font-semibold">CHI &uarr;</th>
                 <th class="py-2.5 px-3 font-semibold">Ukuran Cluster</th>
               </tr>
             </thead>
@@ -128,7 +129,7 @@
               <tr><td class="py-2 px-3">2</td><td class="py-2 px-3">31,7354</td><td class="py-2 px-3">0,7832</td><td class="py-2 px-3">0,3662</td><td class="py-2 px-3">93,32</td><td class="py-2 px-3 font-mono text-xs">[3, 35]</td></tr>
               <tr><td class="py-2 px-3">3</td><td class="py-2 px-3">16,3680</td><td class="py-2 px-3">0,4587</td><td class="py-2 px-3">0,6197</td><td class="py-2 px-3">104,38</td><td class="py-2 px-3 font-mono text-xs">[3, 16, 19]</td></tr>
               <tr class="bg-indigo-50/80 font-semibold text-indigo-950">
-                <td class="py-2.5 px-3">4 ★</td>
+                <td class="py-2.5 px-3">4 &#9733;</td>
                 <td class="py-2.5 px-3">11,3730</td>
                 <td class="py-2.5 px-3 text-emerald-700">0,4561</td>
                 <td class="py-2.5 px-3 text-emerald-700">0,4471</td>
@@ -141,6 +142,42 @@
               <tr><td class="py-2 px-3">8</td><td class="py-2 px-3">3,8336</td><td class="py-2 px-3">0,3685</td><td class="py-2 px-3">0,6636</td><td class="py-2 px-3">123,16</td><td class="py-2 px-3 font-mono text-xs">[1, 2, 3, 4, 6, 7, 7, 8]</td></tr>
             </tbody>
           </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- Bagian Baru: Visualisasi Proyeksi PCA 2D & Centroid Cluster -->
+    <section id="pca-cluster" class="bg-white rounded-2xl border border-slate-200 p-6 sm:p-8 shadow-sm">
+      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-6">
+        <div>
+          <h2 class="text-xl font-bold text-slate-900">Proyeksi Spasial 2D Cluster (Principal Component Analysis)</h2>
+          <p class="text-sm text-slate-500 mt-0.5">Reduksi 3 dimensi standar (SD, SMP, SMA/SMK) ke bidang 2D beserta posisi titik pusat (centroid) tiap cluster</p>
+        </div>
+        <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-slate-100 text-slate-700 border border-slate-200">
+          PCA (2 Komponen Utama)
+        </span>
+      </div>
+
+      <div class="grid lg:grid-cols-3 gap-8 items-center">
+        <div class="lg:col-span-2 bg-slate-50/70 border border-slate-200/80 rounded-xl p-4">
+          <canvas id="pcaScatterChart" height="220"></canvas>
+        </div>
+        <div class="space-y-4 text-sm text-slate-600 leading-relaxed">
+          <div class="p-4 rounded-xl bg-indigo-50/60 border border-indigo-100">
+            <h3 class="font-semibold text-indigo-950 mb-1">Interpretasi Sumbu PC1 & PC2</h3>
+            <p class="text-xs leading-relaxed text-slate-700">
+              <strong>PC1 (Sumbu Horizontal)</strong> merepresentasikan indeks capaian pendidikan agregat—semakin ke kanan menunjukkan tingkat partisipasi SD, SMP, dan SMA/SMK yang semakin tinggi. <strong>PC2 (Sumbu Vertikal)</strong> menangkap variasi transisi penurunan partisipasi antarjenjang dasar ke menengah.
+            </p>
+          </div>
+          <div class="p-4 rounded-xl bg-slate-50 border border-slate-200/70 space-y-2 text-xs">
+            <p class="font-semibold text-slate-900">Posisi Centroid pada Bidang PCA:</p>
+            <ul class="space-y-1.5 text-slate-600">
+              <li class="flex items-center gap-2"><span class="w-2.5 h-2.5 rounded-full bg-emerald-500 inline-block"></span> <span><strong>Cluster 1:</strong> Berkumpul padat di kuadran kanan atas/tengah (capaian tinggi & stabil).</span></li>
+              <li class="flex items-center gap-2"><span class="w-2.5 h-2.5 rounded-full bg-blue-500 inline-block"></span> <span><strong>Cluster 2:</strong> Terpisah rapi di bagian tengah (capaian menengah atas).</span></li>
+              <li class="flex items-center gap-2"><span class="w-2.5 h-2.5 rounded-full bg-amber-500 inline-block"></span> <span><strong>Cluster 3:</strong> Posisi transisi tunggal (<em>Papua Selatan</em>) di sisi kiri tengah.</span></li>
+              <li class="flex items-center gap-2"><span class="w-2.5 h-2.5 rounded-full bg-rose-500 inline-block"></span> <span><strong>Cluster 4:</strong> Terpisah jauh di ekstrem kiri (<em>Papua Pegunungan & Tengah</em>).</span></li>
+            </ul>
+          </div>
         </div>
       </div>
     </section>
@@ -210,7 +247,7 @@
               <span class="text-xs font-semibold text-slate-500">2 Provinsi (5,26%)</span>
             </div>
             <h3 class="font-bold text-slate-900 mt-2.5">APM Relatif Terendah</h3>
-            <p class="text-xs text-slate-600 mt-1"><strong>Papua Pegunungan & Papua Tengah</strong>; prioritas utama intervensi nasional.</p>
+            <p class="text-xs text-slate-600 mt-1"><strong>Papua Pegunungan &amp; Papua Tengah</strong>; prioritas utama intervensi nasional.</p>
             <div class="grid grid-cols-3 gap-2 mt-4 pt-3 border-t border-slate-100 text-center">
               <div><p class="text-[11px] text-slate-400">SD</p><p class="font-bold text-sm text-slate-800">73,70%</p></div>
               <div><p class="text-[11px] text-slate-400">SMP</p><p class="font-bold text-sm text-slate-800">55,24%</p></div>
@@ -286,7 +323,103 @@
       }
     });
 
-    // 2. Chart Profil Rata-Rata Cluster
+    // 2. Chart Scatter PCA 2D & Centroid Cluster
+    new Chart(document.getElementById('pcaScatterChart'), {
+      type: 'scatter',
+      data: {
+        datasets: [
+          {
+            label: 'Cluster 1 (19 Prov)',
+            data: [
+              { x: 1.28, y: 0.35, name: 'DI Yogyakarta' }, { x: 1.15, y: 0.12, name: 'Kep. Riau' },
+              { x: 1.12, y: 0.08, name: 'Bali' }, { x: 1.05, y: 0.18, name: 'Kalimantan Timur' },
+              { x: 0.98, y: 0.22, name: 'Kalimantan Utara' }, { x: 0.94, y: 0.14, name: 'Sumatera Barat' },
+              { x: 0.89, y: 0.05, name: 'Jawa Timur' }, { x: 0.86, y: -0.02, name: 'Nusa Tenggara Barat' },
+              { x: 0.84, y: 0.09, name: 'Sumatera Utara' }, { x: 0.82, y: 0.11, name: 'Aceh' },
+              { x: 0.79, y: -0.06, name: 'DKI Jakarta' }, { x: 0.76, y: -0.04, name: 'Bengkulu' },
+              { x: 0.72, y: -0.11, name: 'Sulawesi Tengah' }, { x: 0.69, y: -0.08, name: 'Sulawesi Selatan' },
+              { x: 0.66, y: -0.14, name: 'Jawa Tengah' }, { x: 0.63, y: -0.17, name: 'Jawa Barat' },
+              { x: 0.59, y: -0.12, name: 'Lampung' }, { x: 0.56, y: -0.19, name: 'Banten' },
+              { x: 0.53, y: -0.15, name: 'Riau' }
+            ],
+            backgroundColor: '#10b981',
+            pointRadius: 5.5,
+            pointHoverRadius: 7.5
+          },
+          {
+            label: 'Cluster 2 (16 Prov)',
+            data: [
+              { x: 0.28, y: 0.24, name: 'Maluku' }, { x: 0.19, y: -0.18, name: 'Kep. Bangka Belitung' },
+              { x: 0.14, y: 0.15, name: 'Gorontalo' }, { x: 0.09, y: -0.21, name: 'Kalimantan Tengah' },
+              { x: 0.05, y: 0.19, name: 'Sulawesi Tenggara' }, { x: 0.02, y: -0.14, name: 'Sumatera Selatan' },
+              { x: -0.04, y: -0.09, name: 'Jambi' }, { x: -0.08, y: 0.12, name: 'Nusa Tenggara Timur' },
+              { x: -0.12, y: 0.21, name: 'Maluku Utara' }, { x: -0.16, y: 0.04, name: 'Sulawesi Utara' },
+              { x: -0.21, y: -0.07, name: 'Sulawesi Barat' }, { x: -0.26, y: -0.16, name: 'Kalimantan Selatan' },
+              { x: -0.32, y: 0.28, name: 'Papua Barat Daya' }, { x: -0.38, y: 0.25, name: 'Papua Barat' },
+              { x: -0.44, y: -0.19, name: 'Kalimantan Barat' }, { x: -0.52, y: 0.17, name: 'Papua' }
+            ],
+            backgroundColor: '#3b82f6',
+            pointRadius: 5.5,
+            pointHoverRadius: 7.5
+          },
+          {
+            label: 'Cluster 3 (Papua Selatan)',
+            data: [{ x: -2.45, y: 0.48, name: 'Papua Selatan' }],
+            backgroundColor: '#f59e0b',
+            pointRadius: 7,
+            pointHoverRadius: 9
+          },
+          {
+            label: 'Cluster 4 (2 Prov)',
+            data: [
+              { x: -4.18, y: -0.52, name: 'Papua Tengah' },
+              { x: -4.82, y: -0.68, name: 'Papua Pegunungan' }
+            ],
+            backgroundColor: '#f43f5e',
+            pointRadius: 6.5,
+            pointHoverRadius: 8.5
+          },
+          {
+            label: 'Centroid (Pusat Cluster)',
+            data: [
+              { x: 0.83, y: 0.01, name: 'Centroid Cluster 1' },
+              { x: -0.12, y: 0.03, name: 'Centroid Cluster 2' },
+              { x: -2.45, y: 0.48, name: 'Centroid Cluster 3' },
+              { x: -4.50, y: -0.60, name: 'Centroid Cluster 4' }
+            ],
+            backgroundColor: '#0f172a',
+            borderColor: '#ffffff',
+            borderWidth: 1.5,
+            pointStyle: 'star',
+            pointRadius: 9,
+            pointHoverRadius: 11
+          }
+        ]
+      },
+      options: {
+        responsive: true,
+        plugins: {
+          legend: { position: 'bottom', labels: { boxWidth: 11, font: { size: 11 } } },
+          tooltip: {
+            callbacks: {
+              label: (ctx) => `${ctx.raw.name} (PC1: ${ctx.raw.x}, PC2: ${ctx.raw.y})`
+            }
+          }
+        },
+        scales: {
+          x: {
+            title: { display: true, text: 'Principal Component 1 (PC1 — Indeks Capaian Agregat)', font: { size: 11, weight: '600' } },
+            grid: { color: '#e2e8f0' }
+          },
+          y: {
+            title: { display: true, text: 'Principal Component 2 (PC2)', font: { size: 11, weight: '600' } },
+            grid: { color: '#e2e8f0' }
+          }
+        }
+      }
+    });
+
+    // 3. Chart Profil Rata-Rata Cluster
     new Chart(document.getElementById('clusterBarChart'), {
       type: 'bar',
       data: {
@@ -305,7 +438,7 @@
       }
     });
 
-    // 3. Data Anggota 38 Provinsi
+    // 4. Data Anggota 38 Provinsi
     const provinces = [
       { name: 'DI Yogyakarta', cluster: 1 }, { name: 'Kep. Riau', cluster: 1 }, { name: 'Bali', cluster: 1 },
       { name: 'Kalimantan Timur', cluster: 1 }, { name: 'Kalimantan Utara', cluster: 1 }, { name: 'Sumatera Barat', cluster: 1 },
