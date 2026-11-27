@@ -6,9 +6,6 @@
   <title>Analisis Pengelompokan Provinsi Berdasarkan APM Tahun 2025 Menggunakan K-Means Clustering</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-  <!-- Leaflet CSS & JS untuk Peta Interaktif 38 Provinsi -->
-  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
-  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <style>
     body { font-family: 'Plus Jakarta Sans', sans-serif; }
@@ -18,12 +15,6 @@
     .card-lift:hover {
       transform: translateY(-4px);
       box-shadow: 0 14px 28px -8px rgba(120, 53, 15, 0.14);
-    }
-    #indonesiaMap {
-      height: 410px;
-      width: 100%;
-      border-radius: 1rem;
-      z-index: 10;
     }
   </style>
 </head>
@@ -43,7 +34,7 @@
       <div class="hidden lg:flex items-center gap-4 text-xs font-semibold text-stone-600">
         <a href="#eda" class="hover:text-teal-600 transition">EDA</a>
         <a href="#evaluasi" class="hover:text-amber-600 transition">Evaluasi K</a>
-        <a href="#peta-cluster" class="hover:text-rose-600 transition">Peta Cluster</a>
+        <a href="#peta-cluster" class="hover:text-rose-600 transition">Peta Indonesia</a>
         <a href="#pca-cluster" class="hover:text-emerald-600 transition">Proyeksi PCA</a>
         <a href="#profil-cluster" class="hover:text-purple-600 transition">4 Segmen</a>
         <a href="#dropoff" class="hover:text-orange-600 transition">Drop-off</a>
@@ -152,6 +143,12 @@
             <span>Terendah</span>
           </div>
         </div>
+      </div>
+
+      <!-- Keterangan Singkat Metodologi & Istilah -->
+      <div class="mt-4 bg-white border border-orange-200 rounded-xl px-4 py-2.5 text-xs text-stone-600 flex flex-wrap items-center gap-x-6 gap-y-1.5 shadow-2xs">
+        <span><strong class="text-teal-700">• 4 DOB (Daerah Otonomi Baru):</strong> Papua Barat Daya, Papua Selatan, Papua Tengah, &amp; Papua Pegunungan.</span>
+        <span><strong class="text-rose-700">• n_init = 50:</strong> 50 kali inisialisasi centroid acak agar titik pusat cluster stabil &amp; optimal.</span>
       </div>
     </div>
   </header>
@@ -285,34 +282,96 @@
       </div>
     </section>
 
-    <!-- PETA PERSEBARAN GEOGRAFIS CLUSTER 38 PROVINSI -->
+    <!-- PETA SILUET INDONESIA & TITIK CLUSTER 38 PROVINSI -->
     <section id="peta-cluster" class="bg-white rounded-2xl border border-rose-200 p-6 sm:p-8 shadow-sm">
       <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-5">
         <div>
-          <h2 class="text-xl font-bold text-stone-900">Peta Persebaran Geografis Cluster (38 Provinsi Indonesia)</h2>
-          <p class="text-sm text-stone-500 mt-0.5">Klik atau arahkan kursor ke penanda wilayah di peta untuk melihat detail nilai APM tiap provinsi</p>
+          <h2 class="text-xl font-bold text-stone-900">Peta Indonesia &amp; Sebaran Titik Cluster (38 Provinsi)</h2>
+          <p class="text-sm text-stone-500 mt-0.5">Arahkan kursor atau klik titik provinsi pada peta kepulauan Indonesia untuk melihat nilai APM</p>
         </div>
         <div class="flex flex-wrap gap-1.5">
-          <button type="button" onclick="filterMapMarkers('all')" id="mapBtnAll" class="map-filter-btn px-3 py-1 rounded-lg text-xs font-bold bg-stone-900 text-white transition">Semua (38)</button>
-          <button type="button" onclick="filterMapMarkers('1')" id="mapBtn1" class="map-filter-btn px-3 py-1 rounded-lg text-xs font-bold bg-teal-100 text-teal-800 border border-teal-300 transition">C1</button>
-          <button type="button" onclick="filterMapMarkers('2')" id="mapBtn2" class="map-filter-btn px-3 py-1 rounded-lg text-xs font-bold bg-purple-100 text-purple-800 border border-purple-300 transition">C2</button>
-          <button type="button" onclick="filterMapMarkers('3')" id="mapBtn3" class="map-filter-btn px-3 py-1 rounded-lg text-xs font-bold bg-amber-100 text-amber-800 border border-amber-300 transition">C3</button>
-          <button type="button" onclick="filterMapMarkers('4')" id="mapBtn4" class="map-filter-btn px-3 py-1 rounded-lg text-xs font-bold bg-rose-100 text-rose-800 border border-rose-300 transition">C4</button>
+          <button type="button" onclick="filterIndoMap('all')" id="mapBtnAll" class="map-filter-btn px-3 py-1 rounded-lg text-xs font-bold bg-stone-900 text-white transition">Semua (38)</button>
+          <button type="button" onclick="filterIndoMap('1')" id="mapBtn1" class="map-filter-btn px-3 py-1 rounded-lg text-xs font-bold bg-teal-100 text-teal-800 border border-teal-300 transition">C1 (19)</button>
+          <button type="button" onclick="filterIndoMap('2')" id="mapBtn2" class="map-filter-btn px-3 py-1 rounded-lg text-xs font-bold bg-purple-100 text-purple-800 border border-purple-300 transition">C2 (16)</button>
+          <button type="button" onclick="filterIndoMap('3')" id="mapBtn3" class="map-filter-btn px-3 py-1 rounded-lg text-xs font-bold bg-amber-100 text-amber-800 border border-amber-300 transition">C3 (1)</button>
+          <button type="button" onclick="filterIndoMap('4')" id="mapBtn4" class="map-filter-btn px-3 py-1 rounded-lg text-xs font-bold bg-rose-100 text-rose-800 border border-rose-300 transition">C4 (2)</button>
         </div>
       </div>
 
-      <div class="border border-orange-200 rounded-2xl overflow-hidden shadow-2xs">
-        <div id="indonesiaMap"></div>
+      <!-- Kanvas Peta Kepulauan Indonesia + Kartu Detail Mengambang -->
+      <div class="relative bg-[#FFFBF7] border border-orange-200 rounded-2xl p-3 sm:p-5 overflow-hidden">
+        <div id="indoMapContainer" class="w-full overflow-x-auto">
+          <svg id="indonesiaSvgMap" viewBox="0 0 1000 390" class="w-full min-w-[680px] h-auto select-none">
+            <!-- Siluet Kepulauan Utama Indonesia -->
+            <g fill="#E7D8C9" stroke="#D6C2AE" stroke-width="1.5" stroke-linejoin="round">
+              <!-- Sumatera & Kepulauan -->
+              <path d="M52,58 L82,74 L118,108 L156,144 L194,178 L226,214 L236,238 L220,248 L195,228 L164,196 L124,158 L84,116 L46,72 Z" />
+              <circle cx="246" cy="182" r="6" />
+              <path d="M254,210 L270,214 L268,228 L252,224 Z" />
+              <circle cx="282" cy="226" r="5" />
+
+              <!-- Jawa -->
+              <path d="M248,274 L298,278 L352,284 L408,288 L424,296 L396,304 L342,298 L286,294 L244,286 Z" />
+
+              <!-- Bali & Nusa Tenggara -->
+              <path d="M434,296 L450,296 L448,304 L432,303 Z" />
+              <path d="M458,298 L476,298 L475,306 L457,305 Z" />
+              <path d="M484,299 L518,300 L516,309 L482,307 Z" />
+              <path d="M532,303 L586,302 L584,311 L530,311 Z" />
+              <path d="M554,322 L578,325 L574,334 L550,330 Z" />
+              <path d="M594,324 L636,312 L640,322 L598,335 Z" />
+
+              <!-- Kalimantan -->
+              <path d="M352,164 L394,142 L438,106 L472,96 L496,118 L508,148 L492,184 L468,214 L432,222 L386,218 L354,198 Z" />
+
+              <!-- Sulawesi -->
+              <path d="M548,176 L568,144 L616,136 L632,144 L594,154 L578,172 L608,182 L596,196 L576,190 L586,218 L572,226 L562,202 L550,224 L536,218 L544,192 Z" />
+
+              <!-- Maluku & Maluku Utara -->
+              <path d="M668,142 L686,136 L688,162 L672,166 Z" />
+              <path d="M674,216 L712,214 L714,225 L674,226 Z" />
+              <circle cx="656" cy="222" r="6" />
+
+              <!-- Tanah Papua (6 Provinsi termasuk 4 DOB) -->
+              <path d="M744,174 L786,168 L802,184 L778,196 L812,202 L868,196 L924,204 L926,278 L882,276 L856,252 L818,236 L776,222 L752,202 Z" />
+            </g>
+
+            <!-- Label Pulau Halus -->
+            <g fill="#A89685" font-size="10" font-weight="700" letter-spacing="1.2">
+              <text x="105" y="185">SUMATERA</text>
+              <text x="315" y="320">JAWA</text>
+              <text x="405" y="175">KALIMANTAN</text>
+              <text x="530" y="246">SULAWESI</text>
+              <text x="825" y="232">PAPUA</text>
+            </g>
+
+            <!-- Layer Titik 38 Provinsi -->
+            <g id="mapDotsLayer"></g>
+          </svg>
+        </div>
+
+        <!-- Kartu Tooltip Detail Provinsi -->
+        <div id="mapDetailCard" class="mt-3 sm:mt-0 sm:absolute sm:bottom-4 sm:left-4 bg-white border border-orange-200 rounded-xl px-4 py-3 shadow-md text-xs max-w-xs">
+          <p class="text-[11px] font-bold uppercase tracking-wider text-stone-400">Detail Wilayah Terpilih</p>
+          <p id="mapCardTitle" class="font-extrabold text-sm text-stone-900 mt-0.5">DI YOGYAKARTA</p>
+          <span id="mapCardBadge" class="inline-block mt-1 px-2.5 py-0.5 rounded-full text-[10px] font-bold text-white bg-[#0D9488]">Cluster 1 • Tertinggi</span>
+          <div id="mapCardMetrics" class="grid grid-cols-3 gap-2 mt-2.5 pt-2 border-t border-stone-100 text-center">
+            <div><span class="text-[10px] text-stone-500 block">SD</span><strong class="text-stone-900">98,77%</strong></div>
+            <div><span class="text-[10px] text-stone-500 block">SMP</span><strong class="text-stone-900">88,67%</strong></div>
+            <div><span class="text-[10px] text-stone-500 block">SMA/K</span><strong class="text-stone-900">78,42%</strong></div>
+          </div>
+        </div>
       </div>
 
+      <!-- Legenda Warna -->
       <div class="mt-4 flex flex-wrap items-center justify-between gap-3 text-xs bg-[#FFFBF7] border border-orange-200 rounded-xl px-4 py-3">
         <div class="flex flex-wrap items-center gap-4">
-          <span class="flex items-center gap-1.5 font-semibold text-stone-700"><span class="w-3.5 h-3.5 rounded-full bg-[#0D9488] border-2 border-white shadow-2xs inline-block"></span> Cluster 1: Tertinggi (19 Prov)</span>
-          <span class="flex items-center gap-1.5 font-semibold text-stone-700"><span class="w-3.5 h-3.5 rounded-full bg-[#9333EA] border-2 border-white shadow-2xs inline-block"></span> Cluster 2: Menengah Atas (16 Prov)</span>
-          <span class="flex items-center gap-1.5 font-semibold text-stone-700"><span class="w-3.5 h-3.5 rounded-full bg-[#F59E0B] border-2 border-white shadow-2xs inline-block"></span> Cluster 3: Khusus (Papua Selatan)</span>
-          <span class="flex items-center gap-1.5 font-semibold text-stone-700"><span class="w-3.5 h-3.5 rounded-full bg-[#E11D48] border-2 border-white shadow-2xs inline-block"></span> Cluster 4: Terendah (2 Prov)</span>
+          <span class="flex items-center gap-1.5 font-semibold text-stone-700"><span class="w-3.5 h-3.5 rounded-full bg-[#0D9488] border-2 border-white shadow-2xs inline-block"></span> Cluster 1: Tertinggi (19)</span>
+          <span class="flex items-center gap-1.5 font-semibold text-stone-700"><span class="w-3.5 h-3.5 rounded-full bg-[#9333EA] border-2 border-white shadow-2xs inline-block"></span> Cluster 2: Menengah Atas (16)</span>
+          <span class="flex items-center gap-1.5 font-semibold text-stone-700"><span class="w-3.5 h-3.5 rounded-full bg-[#F59E0B] border-2 border-white shadow-2xs inline-block"></span> Cluster 3: Khusus (1)</span>
+          <span class="flex items-center gap-1.5 font-semibold text-stone-700"><span class="w-3.5 h-3.5 rounded-full bg-[#E11D48] border-2 border-white shadow-2xs inline-block"></span> Cluster 4: Terendah (2)</span>
         </div>
-        <span class="text-stone-500 font-medium">Pola Spasial: Dominasi C1 di Barat &amp; Tengah, C3–C4 terkonsentrasi di Papua</span>
+        <span class="text-stone-500 font-medium">Klik titik mana pun pada peta untuk melihat detailnya</span>
       </div>
     </section>
 
@@ -566,56 +625,97 @@
   </footer>
 
   <script>
-    // Dataset Riil 38 Provinsi BPS Tahun 2025 + Koordinat Geografis (Lat, Lng)
+    // Dataset Riil 38 Provinsi BPS Tahun 2025 & Hasil Cluster K-Means (K=4)
     const provinces = [
       // Cluster 1 (19 Provinsi)
-      { name: 'DI YOGYAKARTA', cluster: 1, sd: 98.77, smp: 88.67, sm: 78.42, lat: -7.8014, lng: 110.3647 },
-      { name: 'KEP. RIAU', cluster: 1, sd: 98.20, smp: 83.55, sm: 76.54, lat: 0.9186, lng: 104.4670 },
-      { name: 'BALI', cluster: 1, sd: 97.05, smp: 84.81, sm: 76.06, lat: -8.3405, lng: 115.0920 },
-      { name: 'KALIMANTAN TIMUR', cluster: 1, sd: 97.68, smp: 82.01, sm: 73.96, lat: 0.5387, lng: 116.4194 },
-      { name: 'KALIMANTAN UTARA', cluster: 1, sd: 97.05, smp: 81.49, sm: 73.13, lat: 3.0731, lng: 116.0414 },
-      { name: 'SUMATERA BARAT', cluster: 1, sd: 97.06, smp: 82.70, sm: 71.57, lat: -0.7399, lng: 100.8000 },
-      { name: 'JAWA TIMUR', cluster: 1, sd: 98.22, smp: 84.49, sm: 70.64, lat: -7.5361, lng: 112.2384 },
-      { name: 'NUSA TENGGARA BARAT', cluster: 1, sd: 97.62, smp: 82.54, sm: 70.43, lat: -8.6529, lng: 117.3616 },
-      { name: 'SUMATERA UTARA', cluster: 1, sd: 95.99, smp: 77.41, sm: 70.40, lat: 2.1154, lng: 99.5451 },
-      { name: 'ACEH', cluster: 1, sd: 96.32, smp: 81.37, sm: 70.36, lat: 4.6951, lng: 96.7494 },
-      { name: 'DKI JAKARTA', cluster: 1, sd: 98.47, smp: 87.55, sm: 69.90, lat: -6.2088, lng: 106.8456 },
-      { name: 'BENGKULU', cluster: 1, sd: 96.12, smp: 78.83, sm: 69.32, lat: -3.7928, lng: 102.2608 },
-      { name: 'SULAWESI TENGAH', cluster: 1, sd: 94.67, smp: 78.28, sm: 68.68, lat: -1.4300, lng: 121.4456 },
-      { name: 'SULAWESI SELATAN', cluster: 1, sd: 96.46, smp: 78.45, sm: 68.10, lat: -3.6688, lng: 119.9741 },
-      { name: 'JAWA TENGAH', cluster: 1, sd: 97.21, smp: 80.29, sm: 67.81, lat: -7.1510, lng: 110.1403 },
-      { name: 'JAWA BARAT', cluster: 1, sd: 98.02, smp: 83.84, sm: 67.33, lat: -6.9175, lng: 107.6191 },
-      { name: 'LAMPUNG', cluster: 1, sd: 97.64, smp: 78.47, sm: 67.22, lat: -4.5586, lng: 105.4068 },
-      { name: 'BANTEN', cluster: 1, sd: 97.09, smp: 81.28, sm: 65.28, lat: -6.4058, lng: 106.0640 },
-      { name: 'RIAU', cluster: 1, sd: 97.54, smp: 81.40, sm: 65.22, lat: 0.2933, lng: 101.7068 },
+      { name: 'DI YOGYAKARTA', cluster: 1, sd: 98.77, smp: 88.67, sm: 78.42 },
+      { name: 'KEP. RIAU', cluster: 1, sd: 98.20, smp: 83.55, sm: 76.54 },
+      { name: 'BALI', cluster: 1, sd: 97.05, smp: 84.81, sm: 76.06 },
+      { name: 'KALIMANTAN TIMUR', cluster: 1, sd: 97.68, smp: 82.01, sm: 73.96 },
+      { name: 'KALIMANTAN UTARA', cluster: 1, sd: 97.05, smp: 81.49, sm: 73.13 },
+      { name: 'SUMATERA BARAT', cluster: 1, sd: 97.06, smp: 82.70, sm: 71.57 },
+      { name: 'JAWA TIMUR', cluster: 1, sd: 98.22, smp: 84.49, sm: 70.64 },
+      { name: 'NUSA TENGGARA BARAT', cluster: 1, sd: 97.62, smp: 82.54, sm: 70.43 },
+      { name: 'SUMATERA UTARA', cluster: 1, sd: 95.99, smp: 77.41, sm: 70.40 },
+      { name: 'ACEH', cluster: 1, sd: 96.32, smp: 81.37, sm: 70.36 },
+      { name: 'DKI JAKARTA', cluster: 1, sd: 98.47, smp: 87.55, sm: 69.90 },
+      { name: 'BENGKULU', cluster: 1, sd: 96.12, smp: 78.83, sm: 69.32 },
+      { name: 'SULAWESI TENGAH', cluster: 1, sd: 94.67, smp: 78.28, sm: 68.68 },
+      { name: 'SULAWESI SELATAN', cluster: 1, sd: 96.46, smp: 78.45, sm: 68.10 },
+      { name: 'JAWA TENGAH', cluster: 1, sd: 97.21, smp: 80.29, sm: 67.81 },
+      { name: 'JAWA BARAT', cluster: 1, sd: 98.02, smp: 83.84, sm: 67.33 },
+      { name: 'LAMPUNG', cluster: 1, sd: 97.64, smp: 78.47, sm: 67.22 },
+      { name: 'BANTEN', cluster: 1, sd: 97.09, smp: 81.28, sm: 65.28 },
+      { name: 'RIAU', cluster: 1, sd: 97.54, smp: 81.40, sm: 65.22 },
 
       // Cluster 2 (16 Provinsi)
-      { name: 'MALUKU', cluster: 2, sd: 95.29, smp: 77.02, sm: 66.29, lat: -3.2385, lng: 130.1453 },
-      { name: 'KEP. BANGKA BELITUNG', cluster: 2, sd: 97.00, smp: 74.06, sm: 65.94, lat: -2.7411, lng: 106.4406 },
-      { name: 'GORONTALO', cluster: 2, sd: 95.75, smp: 72.95, sm: 64.63, lat: 0.6999, lng: 122.4467 },
-      { name: 'KALIMANTAN TENGAH', cluster: 2, sd: 97.55, smp: 78.91, sm: 63.31, lat: -1.6815, lng: 113.3824 },
-      { name: 'SULAWESI TENGGARA', cluster: 2, sd: 95.89, smp: 74.78, sm: 63.31, lat: -4.1449, lng: 122.1746 },
-      { name: 'SUMATERA SELATAN', cluster: 2, sd: 95.98, smp: 74.27, sm: 63.08, lat: -3.3194, lng: 103.9144 },
-      { name: 'JAMBI', cluster: 2, sd: 97.02, smp: 78.47, sm: 63.05, lat: -1.6101, lng: 103.6131 },
-      { name: 'NUSA TENGGARA TIMUR', cluster: 2, sd: 95.45, smp: 77.28, sm: 62.88, lat: -8.6574, lng: 121.0794 },
-      { name: 'MALUKU UTARA', cluster: 2, sd: 95.90, smp: 78.65, sm: 62.32, lat: 1.5709, lng: 127.8088 },
-      { name: 'SULAWESI UTARA', cluster: 2, sd: 96.00, smp: 75.05, sm: 61.26, lat: 0.6247, lng: 123.9750 },
-      { name: 'SULAWESI BARAT', cluster: 2, sd: 95.99, smp: 75.49, sm: 60.89, lat: -2.8441, lng: 119.2321 },
-      { name: 'KALIMANTAN SELATAN', cluster: 2, sd: 97.79, smp: 78.54, sm: 59.77, lat: -3.0926, lng: 115.2838 },
-      { name: 'PAPUA BARAT DAYA', cluster: 2, sd: 94.21, smp: 75.13, sm: 58.71, lat: -0.9167, lng: 131.2500 },
-      { name: 'PAPUA BARAT', cluster: 2, sd: 94.00, smp: 72.24, sm: 57.63, lat: -1.3361, lng: 133.1747 },
-      { name: 'KALIMANTAN BARAT', cluster: 2, sd: 95.65, smp: 72.48, sm: 57.60, lat: -0.2787, lng: 111.4753 },
-      { name: 'PAPUA', cluster: 2, sd: 91.81, smp: 77.95, sm: 56.13, lat: -2.5337, lng: 140.7181 },
+      { name: 'MALUKU', cluster: 2, sd: 95.29, smp: 77.02, sm: 66.29 },
+      { name: 'KEP. BANGKA BELITUNG', cluster: 2, sd: 97.00, smp: 74.06, sm: 65.94 },
+      { name: 'GORONTALO', cluster: 2, sd: 95.75, smp: 72.95, sm: 64.63 },
+      { name: 'KALIMANTAN TENGAH', cluster: 2, sd: 97.55, smp: 78.91, sm: 63.31 },
+      { name: 'SULAWESI TENGGARA', cluster: 2, sd: 95.89, smp: 74.78, sm: 63.31 },
+      { name: 'SUMATERA SELATAN', cluster: 2, sd: 95.98, smp: 74.27, sm: 63.08 },
+      { name: 'JAMBI', cluster: 2, sd: 97.02, smp: 78.47, sm: 63.05 },
+      { name: 'NUSA TENGGARA TIMUR', cluster: 2, sd: 95.45, smp: 77.28, sm: 62.88 },
+      { name: 'MALUKU UTARA', cluster: 2, sd: 95.90, smp: 78.65, sm: 62.32 },
+      { name: 'SULAWESI UTARA', cluster: 2, sd: 96.00, smp: 75.05, sm: 61.26 },
+      { name: 'SULAWESI BARAT', cluster: 2, sd: 95.99, smp: 75.49, sm: 60.89 },
+      { name: 'KALIMANTAN SELATAN', cluster: 2, sd: 97.79, smp: 78.54, sm: 59.77 },
+      { name: 'PAPUA BARAT DAYA', cluster: 2, sd: 94.21, smp: 75.13, sm: 58.71 },
+      { name: 'PAPUA BARAT', cluster: 2, sd: 94.00, smp: 72.24, sm: 57.63 },
+      { name: 'KALIMANTAN BARAT', cluster: 2, sd: 95.65, smp: 72.48, sm: 57.60 },
+      { name: 'PAPUA', cluster: 2, sd: 91.81, smp: 77.95, sm: 56.13 },
 
       // Cluster 3 (1 Provinsi)
-      { name: 'PAPUA SELATAN', cluster: 3, sd: 87.64, smp: 57.72, sm: 45.48, lat: -7.7500, lng: 139.6000 },
+      { name: 'PAPUA SELATAN', cluster: 3, sd: 87.64, smp: 57.72, sm: 45.48 },
 
       // Cluster 4 (2 Provinsi)
-      { name: 'PAPUA PEGUNUNGAN', cluster: 4, sd: 74.85, smp: 56.16, sm: 39.87, lat: -4.1000, lng: 138.9500 },
-      { name: 'PAPUA TENGAH', cluster: 4, sd: 72.55, smp: 54.33, sm: 35.59, lat: -3.6500, lng: 136.2500 }
+      { name: 'PAPUA PEGUNUNGAN', cluster: 4, sd: 74.85, smp: 56.16, sm: 39.87 },
+      { name: 'PAPUA TENGAH', cluster: 4, sd: 72.55, smp: 54.33, sm: 35.59 }
     ];
 
-    // Inisialisasi Peta Interaktif 38 Provinsi Indonesia (Leaflet)
+    // Koordinat Posisi Titik 38 Provinsi di Atas Peta Siluet Indonesia (x, y pada viewBox 1000x390)
+    const mapDotCoords = {
+      'ACEH': { x: 64, y: 74 },
+      'SUMATERA UTARA': { x: 96, y: 112 },
+      'SUMATERA BARAT': { x: 122, y: 158 },
+      'RIAU': { x: 146, y: 146 },
+      'KEP. RIAU': { x: 246, y: 182 },
+      'JAMBI': { x: 164, y: 176 },
+      'BENGKULU': { x: 152, y: 202 },
+      'SUMATERA SELATAN': { x: 192, y: 204 },
+      'KEP. BANGKA BELITUNG': { x: 262, y: 218 },
+      'LAMPUNG': { x: 222, y: 234 },
+      'BANTEN': { x: 254, y: 280 },
+      'DKI JAKARTA': { x: 272, y: 276 },
+      'JAWA BARAT': { x: 292, y: 286 },
+      'JAWA TENGAH': { x: 334, y: 288 },
+      'DI YOGYAKARTA': { x: 338, y: 298 },
+      'JAWA TIMUR': { x: 384, y: 292 },
+      'BALI': { x: 441, y: 300 },
+      'NUSA TENGGARA BARAT': { x: 472, y: 302 },
+      'NUSA TENGGARA TIMUR': { x: 562, y: 308 },
+      'KALIMANTAN BARAT': { x: 376, y: 182 },
+      'KALIMANTAN TENGAH': { x: 422, y: 194 },
+      'KALIMANTAN SELATAN': { x: 458, y: 208 },
+      'KALIMANTAN TIMUR': { x: 482, y: 158 },
+      'KALIMANTAN UTARA': { x: 470, y: 112 },
+      'SULAWESI UTARA': { x: 618, y: 140 },
+      'GORONTALO': { x: 592, y: 144 },
+      'SULAWESI TENGAH': { x: 572, y: 172 },
+      'SULAWESI BARAT': { x: 550, y: 192 },
+      'SULAWESI SELATAN': { x: 552, y: 214 },
+      'SULAWESI TENGGARA': { x: 582, y: 210 },
+      'MALUKU UTARA': { x: 678, y: 150 },
+      'MALUKU': { x: 694, y: 220 },
+      'PAPUA BARAT DAYA': { x: 756, y: 178 },
+      'PAPUA BARAT': { x: 786, y: 186 },
+      'PAPUA': { x: 882, y: 202 },
+      'PAPUA TENGAH': { x: 824, y: 214 },
+      'PAPUA PEGUNUNGAN': { x: 896, y: 224 },
+      'PAPUA SELATAN': { x: 896, y: 262 }
+    };
+
     const mapColors = { 1: '#0D9488', 2: '#9333EA', 3: '#F59E0B', 4: '#E11D48' };
     const mapLabels = {
       1: 'Cluster 1 • Tertinggi',
@@ -624,53 +724,61 @@
       4: 'Cluster 4 • Terendah'
     };
 
-    const map = L.map('indonesiaMap', { scrollWheelZoom: false }).setView([-2.4, 118.0], 5);
-    L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
-      attribution: '&copy; OpenStreetMap &copy; CARTO',
-      maxZoom: 12
-    }).addTo(map);
+    function selectMapProvince(provName) {
+      const p = provinces.find(item => item.name === provName);
+      if (!p) return;
+      document.getElementById('mapCardTitle').textContent = p.name;
+      const badge = document.getElementById('mapCardBadge');
+      badge.textContent = mapLabels[p.cluster];
+      badge.style.backgroundColor = mapColors[p.cluster];
+      document.getElementById('mapCardMetrics').innerHTML = `
+        <div><span class="text-[10px] text-stone-500 block">SD</span><strong class="text-stone-900">${p.sd.toFixed(2)}%</strong></div>
+        <div><span class="text-[10px] text-stone-500 block">SMP</span><strong class="text-stone-900">${p.smp.toFixed(2)}%</strong></div>
+        <div><span class="text-[10px] text-stone-500 block">SMA/K</span><strong class="text-stone-900">${p.sm.toFixed(2)}%</strong></div>
+      `;
+    }
 
-    let markerLayerGroup = L.layerGroup().addTo(map);
-
-    function filterMapMarkers(clusterFilter) {
+    function filterIndoMap(clusterFilter) {
       document.querySelectorAll('.map-filter-btn').forEach(btn => {
         btn.classList.remove('ring-2', 'ring-offset-1', 'ring-stone-900');
       });
       const activeMapBtn = document.getElementById('mapBtn' + (clusterFilter === 'all' ? 'All' : clusterFilter));
       if (activeMapBtn) activeMapBtn.classList.add('ring-2', 'ring-offset-1', 'ring-stone-900');
 
-      markerLayerGroup.clearLayers();
+      const layer = document.getElementById('mapDotsLayer');
+      layer.innerHTML = '';
+
       provinces
         .filter(p => clusterFilter === 'all' || String(p.cluster) === clusterFilter)
         .forEach(p => {
-          const marker = L.circleMarker([p.lat, p.lng], {
-            radius: p.cluster === 3 || p.cluster === 4 ? 10 : 8.5,
-            fillColor: mapColors[p.cluster],
-            color: '#FFFFFF',
-            weight: 2,
-            opacity: 1,
-            fillOpacity: 0.92
-          });
+          const pt = mapDotCoords[p.name];
+          if (!pt) return;
+          const r = (p.cluster === 3 || p.cluster === 4) ? 7.5 : 6.2;
 
-          marker.bindPopup(`
-            <div style="font-family: 'Plus Jakarta Sans', sans-serif; min-width: 170px;">
-              <strong style="font-size: 13px; color: #1c1917;">${p.name}</strong><br/>
-              <span style="display:inline-block; margin: 4px 0 6px; padding: 2px 8px; border-radius: 999px; font-size: 10px; font-weight: 700; color: #fff; background:${mapColors[p.cluster]};">
-                ${mapLabels[p.cluster]}
-              </span>
-              <div style="font-size: 11px; color: #44403c; line-height: 1.5;">
-                • APM SD: <strong>${p.sd.toFixed(2)}%</strong><br/>
-                • APM SMP: <strong>${p.smp.toFixed(2)}%</strong><br/>
-                • APM SMA/SMK: <strong>${p.sm.toFixed(2)}%</strong>
-              </div>
-            </div>
-          `);
+          const g = document.createElementNS('http://www.w3.org/2000/svg', 'g');
+          g.style.cursor = 'pointer';
+          g.addEventListener('mouseenter', () => selectMapProvince(p.name));
+          g.addEventListener('click', () => selectMapProvince(p.name));
 
-          marker.bindTooltip(`<strong>${p.name}</strong> (C${p.cluster})`, { direction: 'top', offset: [0, -6] });
-          marker.addTo(markerLayerGroup);
+          const circle = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+          circle.setAttribute('cx', pt.x);
+          circle.setAttribute('cy', pt.y);
+          circle.setAttribute('r', r);
+          circle.setAttribute('fill', mapColors[p.cluster]);
+          circle.setAttribute('stroke', '#FFFFFF');
+          circle.setAttribute('stroke-width', '2');
+
+          const title = document.createElementNS('http://www.w3.org/2000/svg', 'title');
+          title.textContent = `${p.name} (${mapLabels[p.cluster]}) — SD: ${p.sd}%, SMP: ${p.smp}%, SMA/K: ${p.sm}%`;
+
+          g.appendChild(circle);
+          g.appendChild(title);
+          layer.appendChild(g);
         });
     }
-    filterMapMarkers('all');
+
+    filterIndoMap('all');
+    selectMapProvince('DI YOGYAKARTA');
 
     // Sinkronisasi State ke URL Query Parameters
     let activeCluster = 'all';
