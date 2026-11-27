@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Klasterisasi APM Provinsi Indonesia 2025 — Laporan Riset</title>
+  <title>Analisis Pengelompokan Provinsi Berdasarkan APM Tahun 2025 Menggunakan K-Means Clustering</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -12,110 +12,128 @@
   <style>
     body {
       font-family: 'Plus Jakarta Sans', sans-serif;
-      background-color: #FAF8F5;
-      color: #1C1917;
+      background: linear-gradient(180deg, #F4F7FA 0%, #F8FAFC 45%, #F3F5F9 100%);
+      color: #0F172A;
     }
     .font-serif-editorial {
       font-family: 'Fraunces', serif;
     }
+    .card-hover {
+      transition: transform 0.25s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.25s ease, border-color 0.25s ease;
+    }
+    .card-hover:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 14px 28px -8px rgba(15, 23, 42, 0.10);
+    }
+    @keyframes fadeSlideUp {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .animate-card {
+      animation: fadeSlideUp 0.3s ease forwards;
+    }
   </style>
 </head>
-<body class="antialiased selection:bg-orange-200 selection:text-stone-900">
+<body class="antialiased selection:bg-teal-200 selection:text-slate-900">
 
   <!-- Top Navigation -->
-  <nav class="sticky top-0 z-50 bg-[#FAF8F5]/90 backdrop-blur-md border-b border-stone-200/80">
+  <nav class="sticky top-0 z-50 bg-white/85 backdrop-blur-md border-b border-slate-200/80 shadow-xs">
     <div class="max-w-6xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
       <div class="flex items-center gap-3">
-        <span class="w-9 h-9 rounded-xl bg-[#0F4C5C] text-[#FAF8F5] font-serif-editorial font-bold flex items-center justify-center text-base shadow-sm">
-          APM
+        <span class="w-9 h-9 rounded-xl bg-gradient-to-br from-teal-600 to-violet-600 text-white font-serif-editorial font-bold flex items-center justify-center text-sm shadow-sm">
+          K4
         </span>
         <div>
-          <span class="font-bold text-stone-900 text-sm sm:text-base tracking-tight block leading-none">Riset Segmentasi Pendidikan</span>
-          <span class="text-[11px] text-stone-500">Data BPS Tahun 2025 • K-Means (K=4)</span>
+          <span class="font-bold text-slate-900 text-sm sm:text-base tracking-tight block leading-none">Klasterisasi APM 2025</span>
+          <span class="text-[11px] text-teal-700 font-medium">Kelompok 7 • Sains Data ITERA</span>
         </div>
       </div>
 
-      <div class="hidden md:flex items-center gap-6 text-sm font-medium text-stone-600">
-        <a href="#metodologi" class="hover:text-[#0F4C5C] transition">Metodologi</a>
-        <a href="#evaluasi" class="hover:text-[#0F4C5C] transition">Evaluasi Model</a>
-        <a href="#pca-cluster" class="hover:text-[#0F4C5C] transition">Peta PCA</a>
-        <a href="#profil-cluster" class="hover:text-[#0F4C5C] transition">4 Segmen</a>
-        <a href="#eksplorasi-provinsi" class="hover:text-[#0F4C5C] transition">Data 38 Provinsi</a>
+      <div class="hidden md:flex items-center gap-6 text-sm font-medium text-slate-600">
+        <a href="#metodologi" class="hover:text-teal-600 transition">Metodologi</a>
+        <a href="#evaluasi" class="hover:text-violet-600 transition">Evaluasi Model</a>
+        <a href="#pca-cluster" class="hover:text-amber-600 transition">Peta PCA</a>
+        <a href="#profil-cluster" class="hover:text-rose-600 transition">4 Segmen</a>
+        <a href="#eksplorasi-provinsi" class="hover:text-teal-600 transition">Data 38 Provinsi</a>
       </div>
 
       <a href="https://github.com/FathyaIntami/Klasterisasi-Apm-Indonesia-2025/blob/main/PSD.ipynb" target="_blank"
-         class="inline-flex items-center gap-2 bg-stone-900 hover:bg-[#0F4C5C] text-stone-50 text-xs font-semibold px-3.5 py-2 rounded-xl transition shadow-sm">
+         class="inline-flex items-center gap-2 bg-slate-900 hover:bg-teal-700 text-white text-xs font-semibold px-3.5 py-2 rounded-xl transition shadow-sm active:scale-95">
         <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
-        <span class="hidden sm:inline">Notebook</span> (.ipynb)
+        <span>Notebook (.ipynb)</span>
       </a>
     </div>
   </nav>
 
-  <!-- Hero Section -->
-  <header class="border-b border-stone-200 bg-gradient-to-b from-[#F3EFEA] to-[#FAF8F5] pt-10 pb-14">
-    <div class="max-w-6xl mx-auto px-4 sm:px-6">
-      <div class="flex flex-wrap items-center gap-2 text-xs font-semibold tracking-wide uppercase text-[#0F4C5C] mb-4">
-        <span class="px-2.5 py-1 rounded-md bg-[#0F4C5C]/10 border border-[#0F4C5C]/20">Laporan Analisis Data</span>
-        <span class="text-stone-400">•</span>
-        <span class="text-stone-600">Unsupervised Machine Learning</span>
+  <!-- Hero Section Berwarna Cerah & Modern -->
+  <header class="relative overflow-hidden border-b border-slate-200/80 bg-gradient-to-br from-teal-50/90 via-white to-violet-50/90 pt-10 pb-14">
+    <!-- Dekorasi Latar Halus -->
+    <div class="pointer-events-none absolute -top-24 -right-24 w-96 h-96 rounded-full bg-violet-200/30 blur-3xl"></div>
+    <div class="pointer-events-none absolute -bottom-24 -left-24 w-96 h-96 rounded-full bg-teal-200/30 blur-3xl"></div>
+
+    <div class="relative max-w-6xl mx-auto px-4 sm:px-6">
+      <!-- Badge Paling Atas -->
+      <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-gradient-to-r from-teal-600/10 to-violet-600/10 border border-teal-600/20 text-xs font-bold tracking-wide uppercase text-teal-800 mb-4">
+        <span>Projek Sains Data</span>
+        <span class="text-violet-500">•</span>
+        <span class="text-violet-800">K-Means Clustering</span>
       </div>
 
-      <h1 class="font-serif-editorial text-3xl sm:text-5xl font-bold text-stone-900 leading-[1.15] max-w-4xl">
-        Pemetaan Ketimpangan Angka Partisipasi Murni (APM) 38 Provinsi di Indonesia Tahun 2025
+      <!-- Judul Utama -->
+      <h1 class="font-serif-editorial text-3xl sm:text-5xl font-bold text-slate-900 leading-[1.15] max-w-4xl">
+        Analisis Pengelompokan Provinsi Berdasarkan Angka Partisipasi Murni (APM) Tahun 2025 Menggunakan K-Means Clustering
       </h1>
 
-      <p class="mt-4 text-stone-600 text-base sm:text-lg max-w-3xl leading-relaxed">
-        Studi segmentasi wilayah menggunakan standardisasi <em>Z-Score</em> dan algoritma <strong>K-Means Clustering</strong> pada jenjang pendidikan SD/sederajat, SMP/sederajat, dan SMA/SMK/sederajat.
+      <!-- Deskripsi Utama -->
+      <p class="mt-4 text-slate-600 text-base sm:text-lg max-w-3xl leading-relaxed">
+        Analisis Pengelompokan 38 provinsi di Indonesia berdasarkan Angka Partisipasi Murni (APM) Tahun 2025 (SD, SMP, SMA/SMK) menggunakan algoritma K-Means Clustering (unsupervised learning).
       </p>
 
-      <!-- Kartu Identitas Tim / Penulis (Siap Presentasi) -->
-      <div class="mt-8 bg-white border border-stone-200/90 rounded-2xl p-5 sm:p-6 shadow-sm">
-        <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-4 border-b border-stone-100">
-          <div>
-            <span class="text-[11px] font-bold uppercase tracking-wider text-[#E36414]">Identitas Peneliti & Tim Penyusun</span>
-            <h2 class="text-sm font-bold text-stone-900 mt-0.5">Program Studi Sains Data / Informatika — Tugas Proyek Analisis Klasterisasi</h2>
-          </div>
-          <div class="text-xs text-stone-500 bg-stone-100 px-3 py-1.5 rounded-lg">
-            Dosen Pengampu: <strong class="text-stone-800">Nama Dosen Pengampu, M.Kom.</strong>
-          </div>
+      <!-- Kartu Identitas Kelompok 7 (Versi Ringkas / Compact) -->
+      <div class="mt-6 inline-block w-full max-w-3xl bg-white/90 backdrop-blur border border-slate-200/90 rounded-2xl px-4 py-3.5 shadow-xs">
+        <div class="flex flex-wrap items-center justify-between gap-2 pb-2.5 border-b border-slate-100">
+          <span class="text-xs font-bold text-slate-800">Program Studi Sains Data - Projek Sains Data</span>
+          <span class="px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-violet-100 text-violet-800 border border-violet-200">
+            Kelompok 7
+          </span>
         </div>
-        <div class="grid sm:grid-cols-3 gap-3 mt-4 text-xs">
-          <div class="p-3 rounded-xl bg-[#FAF8F5] border border-stone-200/60">
-            <p class="font-bold text-stone-900">1. Fathya Intami</p>
-            <p class="text-stone-500 mt-0.5">NIM: 123456789 • Ketua / Pemodelan</p>
-          </div>
-          <div class="p-3 rounded-xl bg-[#FAF8F5] border border-stone-200/60">
-            <p class="font-bold text-stone-900">2. Anggota Kelompok 2</p>
-            <p class="text-stone-500 mt-0.5">NIM: 123456790 • Prapemrosesan Data</p>
-          </div>
-          <div class="p-3 rounded-xl bg-[#FAF8F5] border border-stone-200/60">
-            <p class="font-bold text-stone-900">3. Anggota Kelompok 3</p>
-            <p class="text-stone-500 mt-0.5">NIM: 123456791 • Visualisasi & Laporan</p>
-          </div>
+        <div class="flex flex-wrap items-center gap-x-5 gap-y-1.5 pt-2.5 text-xs text-slate-700">
+          <span class="inline-flex items-center gap-1.5">
+            <span class="font-mono font-semibold text-teal-700 bg-teal-50 px-1.5 py-0.5 rounded">123450020</span>
+            <span class="font-medium">Keren Marito Lumban Gaol</span>
+          </span>
+          <span class="inline-flex items-center gap-1.5">
+            <span class="font-mono font-semibold text-violet-700 bg-violet-50 px-1.5 py-0.5 rounded">123450095</span>
+            <span class="font-medium">Fathya Intami Gusda</span>
+          </span>
+          <span class="inline-flex items-center gap-1.5">
+            <span class="font-mono font-semibold text-amber-700 bg-amber-50 px-1.5 py-0.5 rounded">123450072</span>
+            <span class="font-medium">Fathinah Nur Azizah</span>
+          </span>
         </div>
       </div>
 
-      <!-- 4 Metrik Kunci -->
-      <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mt-6">
-        <div class="bg-white border border-stone-200 rounded-2xl p-5">
-          <p class="text-xs font-semibold text-stone-500">Cakupan Wilayah</p>
-          <p class="font-serif-editorial text-3xl font-bold text-stone-900 mt-1">38 Provinsi</p>
-          <p class="text-xs text-stone-500 mt-1">Termasuk 4 DOB Papua</p>
+      <!-- 4 Metrik Kunci Berwarna Kontras -->
+      <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mt-8">
+        <div class="card-hover bg-white border-l-4 border-l-teal-500 border border-slate-200/90 rounded-2xl p-5 shadow-xs">
+          <p class="text-xs font-semibold text-slate-500">Cakupan Wilayah</p>
+          <p class="font-serif-editorial text-3xl font-bold text-teal-700 mt-1">38 Provinsi</p>
+          <p class="text-xs text-slate-500 mt-1">Termasuk 4 DOB Papua</p>
         </div>
-        <div class="bg-white border border-stone-200 rounded-2xl p-5">
-          <p class="text-xs font-semibold text-stone-500">Jumlah Segmen</p>
-          <p class="font-serif-editorial text-3xl font-bold text-[#0F4C5C] mt-1">K = 4</p>
-          <p class="text-xs text-stone-500 mt-1">n_init=50, random_state=42</p>
+        <div class="card-hover bg-white border-l-4 border-l-violet-500 border border-slate-200/90 rounded-2xl p-5 shadow-xs">
+          <p class="text-xs font-semibold text-slate-500">Jumlah Segmen</p>
+          <p class="font-serif-editorial text-3xl font-bold text-violet-700 mt-1">K = 4</p>
+          <p class="text-xs text-slate-500 mt-1">n_init=50, random_state=42</p>
         </div>
-        <div class="bg-white border border-stone-200 rounded-2xl p-5">
-          <p class="text-xs font-semibold text-stone-500">Silhouette Score</p>
-          <p class="font-serif-editorial text-3xl font-bold text-emerald-700 mt-1">0,4561</p>
-          <p class="text-xs text-stone-500 mt-1">Tertinggi di kandidat K &ge; 4</p>
+        <div class="card-hover bg-white border-l-4 border-l-amber-500 border border-slate-200/90 rounded-2xl p-5 shadow-xs">
+          <p class="text-xs font-semibold text-slate-500">Silhouette Score</p>
+          <p class="font-serif-editorial text-3xl font-bold text-amber-600 mt-1">0,4561</p>
+          <p class="text-xs text-slate-500 mt-1">Tertinggi di kandidat K &ge; 4</p>
         </div>
-        <div class="bg-white border border-stone-200 rounded-2xl p-5">
-          <p class="text-xs font-semibold text-stone-500">Davies-Bouldin Index</p>
-          <p class="font-serif-editorial text-3xl font-bold text-[#E36414] mt-1">0,4471</p>
-          <p class="text-xs text-stone-500 mt-1">Terendah (separasi optimal)</p>
+        <div class="card-hover bg-white border-l-4 border-l-rose-500 border border-slate-200/90 rounded-2xl p-5 shadow-xs">
+          <p class="text-xs font-semibold text-slate-500">Davies-Bouldin Index</p>
+          <p class="font-serif-editorial text-3xl font-bold text-rose-600 mt-1">0,4471</p>
+          <p class="text-xs text-slate-500 mt-1">Terendah (separasi optimal)</p>
         </div>
       </div>
     </div>
@@ -124,70 +142,86 @@
   <main class="max-w-6xl mx-auto px-4 sm:px-6 py-12 space-y-14">
 
     <!-- Metodologi -->
-    <section id="metodologi" class="bg-white rounded-2xl border border-stone-200 p-6 sm:p-8 shadow-sm">
-      <h2 class="font-serif-editorial text-2xl font-bold text-stone-900">Keputusan Metodologis & Prapemrosesan</h2>
-      <div class="grid md:grid-cols-3 gap-6 mt-5 text-sm text-stone-600 leading-relaxed">
-        <div class="p-5 rounded-xl bg-[#FAF8F5] border border-stone-200/70">
-          <span class="text-xs font-bold text-[#0F4C5C] uppercase tracking-wider">01 • Integritas Data</span>
-          <h3 class="font-bold text-stone-900 mt-1 mb-2">Mempertahankan Outlier</h3>
+    <section id="metodologi" class="bg-white rounded-3xl border border-slate-200/90 p-6 sm:p-8 shadow-xs">
+      <div class="flex items-center justify-between flex-wrap gap-2">
+        <h2 class="font-serif-editorial text-2xl font-bold text-slate-900">Keputusan Metodologis &amp; Prapemrosesan</h2>
+        <span class="text-xs font-semibold text-teal-700 bg-teal-50 px-3 py-1 rounded-full border border-teal-200">Pipeline Analisis</span>
+      </div>
+      <div class="grid md:grid-cols-3 gap-6 mt-6 text-sm text-slate-600 leading-relaxed">
+        <div class="card-hover p-5 rounded-2xl bg-gradient-to-br from-teal-50/70 to-white border border-teal-100">
+          <span class="inline-block px-2.5 py-0.5 rounded-md bg-teal-600 text-white text-[11px] font-bold uppercase tracking-wider">01 • Integritas Data</span>
+          <h3 class="font-bold text-slate-900 mt-2.5 mb-1.5">Mempertahankan Outlier</h3>
           <p>Seluruh 38 provinsi dianalisis tanpa pemangkasan data. Nilai rendah di wilayah pemekaran Papua bukan galat pencatatan, melainkan realitas ketimpangan akses pendidikan yang perlu dipetakan.</p>
         </div>
-        <div class="p-5 rounded-xl bg-[#FAF8F5] border border-stone-200/70">
-          <span class="text-xs font-bold text-[#E36414] uppercase tracking-wider">02 • Skala Fitur</span>
-          <h3 class="font-bold text-stone-900 mt-1 mb-2">Standardisasi Z-Score</h3>
-          <p>Ketiga fitur (<code class="bg-stone-200/80 px-1.5 py-0.5 rounded text-stone-800 text-xs">APM_SD</code>, <code class="bg-stone-200/80 px-1.5 py-0.5 rounded text-stone-800 text-xs">APM_SMP</code>, <code class="bg-stone-200/80 px-1.5 py-0.5 rounded text-stone-800 text-xs">APM_SM</code>) distandardisasi ke <em>&mu;</em> = 0 dan <em>&sigma;</em> = 1 agar bobot jarak Euclidean setara antarjenjang.</p>
+        <div class="card-hover p-5 rounded-2xl bg-gradient-to-br from-violet-50/70 to-white border border-violet-100">
+          <span class="inline-block px-2.5 py-0.5 rounded-md bg-violet-600 text-white text-[11px] font-bold uppercase tracking-wider">02 • Skala Fitur</span>
+          <h3 class="font-bold text-slate-900 mt-2.5 mb-1.5">Standardisasi Z-Score</h3>
+          <p>Ketiga fitur (<code class="bg-violet-100/80 px-1.5 py-0.5 rounded text-violet-900 text-xs">APM_SD</code>, <code class="bg-violet-100/80 px-1.5 py-0.5 rounded text-violet-900 text-xs">APM_SMP</code>, <code class="bg-violet-100/80 px-1.5 py-0.5 rounded text-violet-900 text-xs">APM_SM</code>) distandardisasi ke <em>&mu;</em> = 0 dan <em>&sigma;</em> = 1 agar bobot jarak Euclidean setara antarjenjang.</p>
         </div>
-        <div class="p-5 rounded-xl bg-[#FAF8F5] border border-stone-200/70">
-          <span class="text-xs font-bold text-amber-700 uppercase tracking-wider">03 • Validasi Klaster</span>
-          <h3 class="font-bold text-stone-900 mt-1 mb-2">Pemilihan Parameter K = 4</h3>
+        <div class="card-hover p-5 rounded-2xl bg-gradient-to-br from-amber-50/70 to-white border border-amber-100">
+          <span class="inline-block px-2.5 py-0.5 rounded-md bg-amber-600 text-white text-[11px] font-bold uppercase tracking-wider">03 • Validasi Klaster</span>
+          <h3 class="font-bold text-slate-900 mt-2.5 mb-1.5">Pemilihan Parameter K = 4</h3>
           <p>Walau <em>K</em> = 2 memiliki Silhouette global tertinggi (0,7832), struktur 2 kelompok terlalu kasar (3 vs 35 provinsi). Pada rentang <em>K</em> &ge; 4, <strong><em>K</em> = 4</strong> mencapai Silhouette puncak (0,4561) dan DBI terendah (0,4471).</p>
         </div>
       </div>
     </section>
 
-    <!-- Evaluasi Model -->
-    <section id="evaluasi" class="bg-white rounded-2xl border border-stone-200 p-6 sm:p-8 shadow-sm">
-      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-6">
+    <!-- Evaluasi Model dengan Tab Interaktif -->
+    <section id="evaluasi" class="bg-white rounded-3xl border border-slate-200/90 p-6 sm:p-8 shadow-xs">
+      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
         <div>
-          <h2 class="font-serif-editorial text-2xl font-bold text-stone-900">Evaluasi Model Baseline (K = 2 s.d. K = 10)</h2>
-          <p class="text-sm text-stone-500 mt-0.5">Perbandingan metrik Silhouette Score, Davies-Bouldin Index (DBI), dan Calinski-Harabasz Index (CHI)</p>
+          <h2 class="font-serif-editorial text-2xl font-bold text-slate-900">Evaluasi Model Baseline (K = 2 s.d. K = 10)</h2>
+          <p class="text-sm text-slate-500 mt-0.5">Klik tab di samping untuk berpindah antara tampilan visual kurva dan tabel rincian metrik</p>
         </div>
-        <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-[#0F4C5C]/10 text-[#0F4C5C] border border-[#0F4C5C]/20">
-          Model Optimal: K = 4
-        </span>
+
+        <!-- Tombol Tab Interaktif -->
+        <div class="inline-flex p-1 rounded-xl bg-slate-100 border border-slate-200 self-start">
+          <button id="tabBoth" onclick="switchEvalView('both')"
+                  class="px-3 py-1.5 rounded-lg text-xs font-semibold bg-white text-slate-900 shadow-xs transition">
+            Gabungan
+          </button>
+          <button id="tabChart" onclick="switchEvalView('chart')"
+                  class="px-3 py-1.5 rounded-lg text-xs font-semibold text-slate-600 hover:text-slate-900 transition">
+            Grafik Kurva
+          </button>
+          <button id="tabTable" onclick="switchEvalView('table')"
+                  class="px-3 py-1.5 rounded-lg text-xs font-semibold text-slate-600 hover:text-slate-900 transition">
+            Tabel Metrik
+          </button>
+        </div>
       </div>
 
-      <div class="grid lg:grid-cols-2 gap-8 items-center">
-        <div>
+      <div id="evalGrid" class="grid lg:grid-cols-2 gap-8 items-center">
+        <div id="evalChartBox" class="p-4 rounded-2xl bg-slate-50/80 border border-slate-200/70">
           <canvas id="evalChart" height="230"></canvas>
         </div>
-        <div class="overflow-x-auto">
+        <div id="evalTableBox" class="overflow-x-auto rounded-2xl border border-slate-200">
           <table class="w-full text-xs sm:text-sm text-left border-collapse">
             <thead>
-              <tr class="bg-stone-100 text-stone-700 border-b border-stone-200">
+              <tr class="bg-gradient-to-r from-teal-700 to-violet-700 text-white">
                 <th class="py-2.5 px-3 font-semibold">K</th>
                 <th class="py-2.5 px-3 font-semibold">Inertia</th>
                 <th class="py-2.5 px-3 font-semibold">Silhouette &uarr;</th>
                 <th class="py-2.5 px-3 font-semibold">DBI &darr;</th>
                 <th class="py-2.5 px-3 font-semibold">CHI &uarr;</th>
-                <th class="py-2.5 px-3 font-semibold">Distribusi Anggota</th>
+                <th class="py-2.5 px-3 font-semibold">Distribusi</th>
               </tr>
             </thead>
-            <tbody class="divide-y divide-stone-200">
-              <tr><td class="py-2 px-3">2</td><td class="py-2 px-3">31,7354</td><td class="py-2 px-3">0,7832</td><td class="py-2 px-3">0,3662</td><td class="py-2 px-3">93,32</td><td class="py-2 px-3 font-mono text-xs">[3, 35]</td></tr>
-              <tr><td class="py-2 px-3">3</td><td class="py-2 px-3">16,3680</td><td class="py-2 px-3">0,4587</td><td class="py-2 px-3">0,6197</td><td class="py-2 px-3">104,38</td><td class="py-2 px-3 font-mono text-xs">[3, 16, 19]</td></tr>
-              <tr class="bg-orange-50/90 font-semibold text-stone-900">
-                <td class="py-2.5 px-3 text-[#E36414]">4 &#9733;</td>
+            <tbody class="divide-y divide-slate-200">
+              <tr class="hover:bg-slate-50 transition"><td class="py-2 px-3">2</td><td class="py-2 px-3">31,7354</td><td class="py-2 px-3">0,7832</td><td class="py-2 px-3">0,3662</td><td class="py-2 px-3">93,32</td><td class="py-2 px-3 font-mono text-xs">[3, 35]</td></tr>
+              <tr class="hover:bg-slate-50 transition"><td class="py-2 px-3">3</td><td class="py-2 px-3">16,3680</td><td class="py-2 px-3">0,4587</td><td class="py-2 px-3">0,6197</td><td class="py-2 px-3">104,38</td><td class="py-2 px-3 font-mono text-xs">[3, 16, 19]</td></tr>
+              <tr class="bg-teal-50/90 font-semibold text-slate-900">
+                <td class="py-2.5 px-3 text-teal-700">4 &#9733;</td>
                 <td class="py-2.5 px-3">11,3730</td>
-                <td class="py-2.5 px-3 text-[#0F4C5C]">0,4561</td>
-                <td class="py-2.5 px-3 text-[#0F4C5C]">0,4471</td>
+                <td class="py-2.5 px-3 text-teal-700">0,4561</td>
+                <td class="py-2.5 px-3 text-violet-700">0,4471</td>
                 <td class="py-2.5 px-3">102,27</td>
                 <td class="py-2.5 px-3 font-mono text-xs">[1, 2, 16, 19]</td>
               </tr>
-              <tr><td class="py-2 px-3">5</td><td class="py-2 px-3">7,6076</td><td class="py-2 px-3">0,3605</td><td class="py-2 px-3">0,6100</td><td class="py-2 px-3">115,38</td><td class="py-2 px-3 font-mono text-xs">[1, 2, 11, 11, 13]</td></tr>
-              <tr><td class="py-2 px-3">6</td><td class="py-2 px-3">5,9100</td><td class="py-2 px-3">0,3435</td><td class="py-2 px-3">0,6602</td><td class="py-2 px-3">117,05</td><td class="py-2 px-3 font-mono text-xs">[1, 2, 4, 9, 10, 12]</td></tr>
-              <tr><td class="py-2 px-3">7</td><td class="py-2 px-3">4,7659</td><td class="py-2 px-3">0,3453</td><td class="py-2 px-3">0,7037</td><td class="py-2 px-3">118,42</td><td class="py-2 px-3 font-mono text-xs">[1, 2, 3, 4, 8, 9, 11]</td></tr>
-              <tr><td class="py-2 px-3">8</td><td class="py-2 px-3">3,8336</td><td class="py-2 px-3">0,3685</td><td class="py-2 px-3">0,6636</td><td class="py-2 px-3">123,16</td><td class="py-2 px-3 font-mono text-xs">[1, 2, 3, 4, 6, 7, 7, 8]</td></tr>
+              <tr class="hover:bg-slate-50 transition"><td class="py-2 px-3">5</td><td class="py-2 px-3">7,6076</td><td class="py-2 px-3">0,3605</td><td class="py-2 px-3">0,6100</td><td class="py-2 px-3">115,38</td><td class="py-2 px-3 font-mono text-xs">[1, 2, 11, 11, 13]</td></tr>
+              <tr class="hover:bg-slate-50 transition"><td class="py-2 px-3">6</td><td class="py-2 px-3">5,9100</td><td class="py-2 px-3">0,3435</td><td class="py-2 px-3">0,6602</td><td class="py-2 px-3">117,05</td><td class="py-2 px-3 font-mono text-xs">[1, 2, 4, 9, 10, 12]</td></tr>
+              <tr class="hover:bg-slate-50 transition"><td class="py-2 px-3">7</td><td class="py-2 px-3">4,7659</td><td class="py-2 px-3">0,3453</td><td class="py-2 px-3">0,7037</td><td class="py-2 px-3">118,42</td><td class="py-2 px-3 font-mono text-xs">[1, 2, 3, 4, 8, 9, 11]</td></tr>
+              <tr class="hover:bg-slate-50 transition"><td class="py-2 px-3">8</td><td class="py-2 px-3">3,8336</td><td class="py-2 px-3">0,3685</td><td class="py-2 px-3">0,6636</td><td class="py-2 px-3">123,16</td><td class="py-2 px-3 font-mono text-xs">[1, 2, 3, 4, 6, 7, 7, 8]</td></tr>
             </tbody>
           </table>
         </div>
@@ -195,158 +229,175 @@
     </section>
 
     <!-- Proyeksi PCA 2D -->
-    <section id="pca-cluster" class="bg-white rounded-2xl border border-stone-200 p-6 sm:p-8 shadow-sm">
+    <section id="pca-cluster" class="bg-white rounded-3xl border border-slate-200/90 p-6 sm:p-8 shadow-xs">
       <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-6">
         <div>
-          <h2 class="font-serif-editorial text-2xl font-bold text-stone-900">Proyeksi Spasial 2D Cluster (PCA)</h2>
-          <p class="text-sm text-stone-500 mt-0.5">Arahkan kursor pada titik untuk melihat nama provinsi, nilai APM, dan posisi centroid masing-masing segmen</p>
+          <h2 class="font-serif-editorial text-2xl font-bold text-slate-900">Proyeksi Spasial 2D Cluster (PCA)</h2>
+          <p class="text-sm text-slate-500 mt-0.5">Arahkan kursor pada titik atau klik legenda di bawah grafik untuk menyembunyikan/menampilkan cluster</p>
         </div>
-        <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-stone-100 text-stone-700 border border-stone-200">
+        <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-violet-50 text-violet-700 border border-violet-200">
           Reduksi 3D &rarr; 2D + Centroid
         </span>
       </div>
 
       <div class="grid lg:grid-cols-3 gap-8 items-center">
-        <div class="lg:col-span-2 bg-[#FAF8F5] border border-stone-200 rounded-xl p-4">
+        <div class="lg:col-span-2 bg-gradient-to-br from-slate-50 to-violet-50/30 border border-slate-200 rounded-2xl p-4">
           <canvas id="pcaScatterChart" height="225"></canvas>
         </div>
-        <div class="space-y-4 text-sm text-stone-600 leading-relaxed">
-          <div class="p-4 rounded-xl bg-[#0F4C5C]/5 border border-[#0F4C5C]/15">
-            <h3 class="font-bold text-stone-900 mb-1">Makna Sumbu PC1 & PC2</h3>
-            <p class="text-xs leading-relaxed text-stone-700">
+        <div class="space-y-4 text-sm text-slate-600 leading-relaxed">
+          <div class="p-4 rounded-2xl bg-violet-50/70 border border-violet-100">
+            <h3 class="font-bold text-violet-950 mb-1">Makna Sumbu PC1 &amp; PC2</h3>
+            <p class="text-xs leading-relaxed text-slate-700">
               <strong>PC1 (Horizontal)</strong> mencerminkan indeks agregat partisipasi pendidikan—semakin ke kanan berarti capaian SD, SMP, dan SMA/SMK semakin tinggi. <strong>PC2 (Vertikal)</strong> menangkap variasi transisi jenjang dasar ke menengah.
             </p>
           </div>
-          <div class="p-4 rounded-xl bg-[#FAF8F5] border border-stone-200 space-y-2 text-xs">
-            <p class="font-bold text-stone-900">Keterangan Sebaran:</p>
-            <ul class="space-y-1.5 text-stone-600">
-              <li class="flex items-center gap-2"><span class="w-2.5 h-2.5 rounded-full bg-[#0F4C5C] inline-block shrink-0"></span> <span><strong>Cluster 1:</strong> Mengelompok rapat di kuadran kanan (capaian tinggi).</span></li>
-              <li class="flex items-center gap-2"><span class="w-2.5 h-2.5 rounded-full bg-[#D97706] inline-block shrink-0"></span> <span><strong>Cluster 2:</strong> Berada di area tengah (capaian menengah atas).</span></li>
-              <li class="flex items-center gap-2"><span class="w-2.5 h-2.5 rounded-full bg-[#E36414] inline-block shrink-0"></span> <span><strong>Cluster 3:</strong> Titik transisi tunggal (<em>Papua Selatan</em>).</span></li>
-              <li class="flex items-center gap-2"><span class="w-2.5 h-2.5 rounded-full bg-[#BE123C] inline-block shrink-0"></span> <span><strong>Cluster 4:</strong> Terpisah di ekstrem kiri (<em>Papua Pegunungan & Tengah</em>).</span></li>
+          <div class="p-4 rounded-2xl bg-slate-50 border border-slate-200 space-y-2 text-xs">
+            <p class="font-bold text-slate-900">Keterangan Sebaran:</p>
+            <ul class="space-y-2 text-slate-600">
+              <li class="flex items-center gap-2"><span class="w-3 h-3 rounded-full bg-teal-600 inline-block shrink-0"></span> <span><strong>Cluster 1:</strong> Mengelompok rapat di kuadran kanan (capaian tinggi).</span></li>
+              <li class="flex items-center gap-2"><span class="w-3 h-3 rounded-full bg-violet-600 inline-block shrink-0"></span> <span><strong>Cluster 2:</strong> Berada di area tengah (capaian menengah atas).</span></li>
+              <li class="flex items-center gap-2"><span class="w-3 h-3 rounded-full bg-amber-500 inline-block shrink-0"></span> <span><strong>Cluster 3:</strong> Titik transisi tunggal (<em>Papua Selatan</em>).</span></li>
+              <li class="flex items-center gap-2"><span class="w-3 h-3 rounded-full bg-rose-600 inline-block shrink-0"></span> <span><strong>Cluster 4:</strong> Terpisah di ekstrem kiri (<em>Papua Pegunungan &amp; Tengah</em>).</span></li>
             </ul>
           </div>
         </div>
       </div>
     </section>
 
-    <!-- Profil 4 Cluster -->
+    <!-- Profil 4 Cluster (Interaktif — Klik Kartu untuk Menyaring Provinsi!) -->
     <section id="profil-cluster" class="space-y-6">
-      <div>
-        <h2 class="font-serif-editorial text-2xl font-bold text-stone-900">Karakteristik & Rata-Rata Centroid 4 Cluster</h2>
-        <p class="text-sm text-stone-500 mt-0.5">Perbandingan persentase APM SD, SMP, dan SMA/SMK pada setiap segmen</p>
+      <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-2">
+        <div>
+          <h2 class="font-serif-editorial text-2xl font-bold text-slate-900">Karakteristik &amp; Rata-Rata Centroid 4 Cluster</h2>
+          <p class="text-sm text-slate-500 mt-0.5">Klik salah satu kartu cluster di bawah untuk langsung melihat daftar provinsinya</p>
+        </div>
+        <span class="text-xs font-medium text-violet-700 bg-violet-50 px-3 py-1 rounded-full border border-violet-200 self-start">
+          Interaktif: Klik kartu untuk filter
+        </span>
       </div>
 
       <div class="grid lg:grid-cols-5 gap-6">
-        <div class="lg:col-span-2 bg-white rounded-2xl border border-stone-200 p-6 shadow-sm flex flex-col justify-center">
+        <div class="lg:col-span-2 bg-white rounded-3xl border border-slate-200/90 p-6 shadow-xs flex flex-col justify-center">
           <canvas id="clusterBarChart" height="265"></canvas>
         </div>
 
         <div class="lg:col-span-3 grid sm:grid-cols-2 gap-4">
           <!-- Cluster 1 -->
-          <div class="bg-white rounded-2xl border-t-4 border-t-[#0F4C5C] border border-stone-200 p-5 shadow-sm">
+          <button type="button" onclick="quickFilterCluster('1')"
+                  class="text-left card-hover bg-gradient-to-br from-teal-50/80 via-white to-white rounded-2xl border-t-4 border-t-teal-600 border border-slate-200 p-5 shadow-xs focus:outline-none focus:ring-2 focus:ring-teal-500">
             <div class="flex justify-between items-start">
-              <span class="text-xs font-bold uppercase tracking-wider text-[#0F4C5C] bg-[#0F4C5C]/10 px-2.5 py-1 rounded-md">Cluster 1</span>
-              <span class="text-xs font-semibold text-stone-500">19 Provinsi (50,00%)</span>
+              <span class="text-xs font-bold uppercase tracking-wider text-teal-800 bg-teal-100 px-2.5 py-1 rounded-md">Cluster 1</span>
+              <span class="text-xs font-semibold text-slate-500">19 Provinsi (50,00%)</span>
             </div>
-            <h3 class="font-bold text-stone-900 mt-2.5">APM Relatif Tertinggi</h3>
-            <p class="text-xs text-stone-600 mt-1">Partisipasi merata dan retensi pendidikan menengah paling kuat.</p>
-            <div class="grid grid-cols-3 gap-2 mt-4 pt-3 border-t border-stone-100 text-center">
-              <div><p class="text-[11px] text-stone-400">SD</p><p class="font-bold text-sm text-stone-800">97,22%</p></div>
-              <div><p class="text-[11px] text-stone-400">SMP</p><p class="font-bold text-sm text-stone-800">81,97%</p></div>
-              <div><p class="text-[11px] text-stone-400">SMA/SMK</p><p class="font-bold text-sm text-[#0F4C5C]">70,55%</p></div>
+            <h3 class="font-bold text-slate-900 mt-2.5">APM Relatif Tertinggi</h3>
+            <p class="text-xs text-slate-600 mt-1">Partisipasi merata dan retensi pendidikan menengah paling kuat.</p>
+            <div class="grid grid-cols-3 gap-2 mt-4 pt-3 border-t border-teal-100 text-center">
+              <div><p class="text-[11px] text-slate-400">SD</p><p class="font-bold text-sm text-slate-800">97,22%</p></div>
+              <div><p class="text-[11px] text-slate-400">SMP</p><p class="font-bold text-sm text-slate-800">81,97%</p></div>
+              <div><p class="text-[11px] text-slate-400">SMA/SMK</p><p class="font-bold text-sm text-teal-700">70,55%</p></div>
             </div>
-          </div>
+          </button>
 
           <!-- Cluster 2 -->
-          <div class="bg-white rounded-2xl border-t-4 border-t-[#D97706] border border-stone-200 p-5 shadow-sm">
+          <button type="button" onclick="quickFilterCluster('2')"
+                  class="text-left card-hover bg-gradient-to-br from-violet-50/80 via-white to-white rounded-2xl border-t-4 border-t-violet-600 border border-slate-200 p-5 shadow-xs focus:outline-none focus:ring-2 focus:ring-violet-500">
             <div class="flex justify-between items-start">
-              <span class="text-xs font-bold uppercase tracking-wider text-amber-800 bg-amber-100/80 px-2.5 py-1 rounded-md">Cluster 2</span>
-              <span class="text-xs font-semibold text-stone-500">16 Provinsi (42,11%)</span>
+              <span class="text-xs font-bold uppercase tracking-wider text-violet-800 bg-violet-100 px-2.5 py-1 rounded-md">Cluster 2</span>
+              <span class="text-xs font-semibold text-slate-500">16 Provinsi (42,11%)</span>
             </div>
-            <h3 class="font-bold text-stone-900 mt-2.5">APM Menengah Atas</h3>
-            <p class="text-xs text-stone-600 mt-1">Pendidikan dasar kuat, namun mengalami penurunan di tingkat SMA/SMK.</p>
-            <div class="grid grid-cols-3 gap-2 mt-4 pt-3 border-t border-stone-100 text-center">
-              <div><p class="text-[11px] text-stone-400">SD</p><p class="font-bold text-sm text-stone-800">95,70%</p></div>
-              <div><p class="text-[11px] text-stone-400">SMP</p><p class="font-bold text-sm text-stone-800">75,83%</p></div>
-              <div><p class="text-[11px] text-stone-400">SMA/SMK</p><p class="font-bold text-sm text-amber-700">61,67%</p></div>
+            <h3 class="font-bold text-slate-900 mt-2.5">APM Menengah Atas</h3>
+            <p class="text-xs text-slate-600 mt-1">Pendidikan dasar kuat, namun mengalami penurunan di tingkat SMA/SMK.</p>
+            <div class="grid grid-cols-3 gap-2 mt-4 pt-3 border-t border-violet-100 text-center">
+              <div><p class="text-[11px] text-slate-400">SD</p><p class="font-bold text-sm text-slate-800">95,70%</p></div>
+              <div><p class="text-[11px] text-slate-400">SMP</p><p class="font-bold text-sm text-slate-800">75,83%</p></div>
+              <div><p class="text-[11px] text-slate-400">SMA/SMK</p><p class="font-bold text-sm text-violet-700">61,67%</p></div>
             </div>
-          </div>
+          </button>
 
           <!-- Cluster 3 -->
-          <div class="bg-white rounded-2xl border-t-4 border-t-[#E36414] border border-stone-200 p-5 shadow-sm">
+          <button type="button" onclick="quickFilterCluster('3')"
+                  class="text-left card-hover bg-gradient-to-br from-amber-50/80 via-white to-white rounded-2xl border-t-4 border-t-amber-500 border border-slate-200 p-5 shadow-xs focus:outline-none focus:ring-2 focus:ring-amber-500">
             <div class="flex justify-between items-start">
-              <span class="text-xs font-bold uppercase tracking-wider text-[#E36414] bg-orange-100/80 px-2.5 py-1 rounded-md">Cluster 3</span>
-              <span class="text-xs font-semibold text-stone-500">1 Provinsi (2,63%)</span>
+              <span class="text-xs font-bold uppercase tracking-wider text-amber-800 bg-amber-100 px-2.5 py-1 rounded-md">Cluster 3</span>
+              <span class="text-xs font-semibold text-slate-500">1 Provinsi (2,63%)</span>
             </div>
-            <h3 class="font-bold text-stone-900 mt-2.5">Menengah Bawah (Khusus)</h3>
-            <p class="text-xs text-stone-600 mt-1">Cluster tunggal (<strong>Papua Selatan</strong>) sebagai zona transisi ketimpangan.</p>
-            <div class="grid grid-cols-3 gap-2 mt-4 pt-3 border-t border-stone-100 text-center">
-              <div><p class="text-[11px] text-stone-400">SD</p><p class="font-bold text-sm text-stone-800">87,64%</p></div>
-              <div><p class="text-[11px] text-stone-400">SMP</p><p class="font-bold text-sm text-stone-800">57,72%</p></div>
-              <div><p class="text-[11px] text-stone-400">SMA/SMK</p><p class="font-bold text-sm text-[#E36414]">45,48%</p></div>
+            <h3 class="font-bold text-slate-900 mt-2.5">Menengah Bawah (Khusus)</h3>
+            <p class="text-xs text-slate-600 mt-1">Cluster tunggal (<strong>Papua Selatan</strong>) sebagai zona transisi ketimpangan.</p>
+            <div class="grid grid-cols-3 gap-2 mt-4 pt-3 border-t border-amber-100 text-center">
+              <div><p class="text-[11px] text-slate-400">SD</p><p class="font-bold text-sm text-slate-800">87,64%</p></div>
+              <div><p class="text-[11px] text-slate-400">SMP</p><p class="font-bold text-sm text-slate-800">57,72%</p></div>
+              <div><p class="text-[11px] text-slate-400">SMA/SMK</p><p class="font-bold text-sm text-amber-700">45,48%</p></div>
             </div>
-          </div>
+          </button>
 
           <!-- Cluster 4 -->
-          <div class="bg-white rounded-2xl border-t-4 border-t-[#BE123C] border border-stone-200 p-5 shadow-sm">
+          <button type="button" onclick="quickFilterCluster('4')"
+                  class="text-left card-hover bg-gradient-to-br from-rose-50/80 via-white to-white rounded-2xl border-t-4 border-t-rose-600 border border-slate-200 p-5 shadow-xs focus:outline-none focus:ring-2 focus:ring-rose-500">
             <div class="flex justify-between items-start">
-              <span class="text-xs font-bold uppercase tracking-wider text-[#BE123C] bg-rose-100/80 px-2.5 py-1 rounded-md">Cluster 4</span>
-              <span class="text-xs font-semibold text-stone-500">2 Provinsi (5,26%)</span>
+              <span class="text-xs font-bold uppercase tracking-wider text-rose-800 bg-rose-100 px-2.5 py-1 rounded-md">Cluster 4</span>
+              <span class="text-xs font-semibold text-slate-500">2 Provinsi (5,26%)</span>
             </div>
-            <h3 class="font-bold text-stone-900 mt-2.5">APM Relatif Terendah</h3>
-            <p class="text-xs text-stone-600 mt-1"><strong>Papua Pegunungan &amp; Papua Tengah</strong>; prioritas utama afirmasi pendidikan.</p>
-            <div class="grid grid-cols-3 gap-2 mt-4 pt-3 border-t border-stone-100 text-center">
-              <div><p class="text-[11px] text-stone-400">SD</p><p class="font-bold text-sm text-stone-800">73,70%</p></div>
-              <div><p class="text-[11px] text-stone-400">SMP</p><p class="font-bold text-sm text-stone-800">55,24%</p></div>
-              <div><p class="text-[11px] text-stone-400">SMA/SMK</p><p class="font-bold text-sm text-[#BE123C]">37,73%</p></div>
+            <h3 class="font-bold text-slate-900 mt-2.5">APM Relatif Terendah</h3>
+            <p class="text-xs text-slate-600 mt-1"><strong>Papua Pegunungan &amp; Papua Tengah</strong>; prioritas utama afirmasi pendidikan.</p>
+            <div class="grid grid-cols-3 gap-2 mt-4 pt-3 border-t border-rose-100 text-center">
+              <div><p class="text-[11px] text-slate-400">SD</p><p class="font-bold text-sm text-slate-800">73,70%</p></div>
+              <div><p class="text-[11px] text-slate-400">SMP</p><p class="font-bold text-sm text-slate-800">55,24%</p></div>
+              <div><p class="text-[11px] text-slate-400">SMA/SMK</p><p class="font-bold text-sm text-rose-700">37,73%</p></div>
             </div>
-          </div>
+          </button>
         </div>
       </div>
     </section>
 
-    <!-- Eksplorasi Rincian 38 Provinsi + Sortir + Export CSV -->
-    <section id="eksplorasi-provinsi" class="bg-white rounded-2xl border border-stone-200 p-6 sm:p-8 shadow-sm">
-      <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-4 pb-6 border-b border-stone-200">
+    <!-- Eksplorasi Rincian 38 Provinsi (Tanpa Unduh CSV, Lebih Interaktif) -->
+    <section id="eksplorasi-provinsi" class="bg-white rounded-3xl border border-slate-200/90 p-6 sm:p-8 shadow-xs">
+      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-6 border-b border-slate-200">
         <div>
-          <h2 class="font-serif-editorial text-2xl font-bold text-stone-900">Rincian Angka APM 38 Provinsi</h2>
-          <p class="text-sm text-stone-500 mt-0.5">Nilai spesifik APM_SD, APM_SMP, dan APM_SM beserta fitur filter, pengurutan, dan unduh CSV</p>
+          <h2 class="font-serif-editorial text-2xl font-bold text-slate-900">Rincian Angka APM 38 Provinsi</h2>
+          <p class="text-sm text-slate-500 mt-0.5">Nilai spesifik APM_SD, APM_SMP, dan APM_SM beserta fitur pencarian, filter cepat, dan pengurutan</p>
         </div>
-
-        <button id="exportCsvBtn"
-                class="inline-flex items-center justify-center gap-2 bg-[#0F4C5C] hover:bg-[#0b3945] text-white text-xs sm:text-sm font-semibold px-4 py-2.5 rounded-xl transition shadow-sm shrink-0">
-          <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/>
-          </svg>
-          Unduh Data Klasterisasi (.CSV)
+        <button id="resetFilterBtn" type="button"
+                class="self-start sm:self-auto px-3.5 py-2 rounded-xl text-xs font-semibold bg-slate-100 hover:bg-slate-200 text-slate-700 transition active:scale-95">
+          Reset Filter
         </button>
       </div>
 
-      <!-- Kontrol Pencarian, Filter Cluster, dan Pengurutan -->
-      <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-3 my-6">
+      <!-- Tombol Pill Filter Cluster Interaktif -->
+      <div class="flex flex-wrap gap-2 mt-5">
+        <button type="button" data-pill="all" onclick="setPillFilter('all')"
+                class="pill-btn px-3.5 py-1.5 rounded-full text-xs font-semibold bg-slate-900 text-white transition">
+          Semua (38)
+        </button>
+        <button type="button" data-pill="1" onclick="setPillFilter('1')"
+                class="pill-btn px-3.5 py-1.5 rounded-full text-xs font-semibold bg-teal-50 text-teal-800 border border-teal-200 hover:bg-teal-100 transition">
+          Cluster 1 • Tertinggi (19)
+        </button>
+        <button type="button" data-pill="2" onclick="setPillFilter('2')"
+                class="pill-btn px-3.5 py-1.5 rounded-full text-xs font-semibold bg-violet-50 text-violet-800 border border-violet-200 hover:bg-violet-100 transition">
+          Cluster 2 • Menengah Atas (16)
+        </button>
+        <button type="button" data-pill="3" onclick="setPillFilter('3')"
+                class="pill-btn px-3.5 py-1.5 rounded-full text-xs font-semibold bg-amber-50 text-amber-800 border border-amber-200 hover:bg-amber-100 transition">
+          Cluster 3 • Khusus (1)
+        </button>
+        <button type="button" data-pill="4" onclick="setPillFilter('4')"
+                class="pill-btn px-3.5 py-1.5 rounded-full text-xs font-semibold bg-rose-50 text-rose-800 border border-rose-200 hover:bg-rose-100 transition">
+          Cluster 4 • Terendah (2)
+        </button>
+      </div>
+
+      <!-- Kontrol Pencarian & Pengurutan -->
+      <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-3 my-5">
         <div class="lg:col-span-2">
-          <label for="searchInput" class="block text-[11px] font-semibold uppercase tracking-wider text-stone-500 mb-1">Cari Provinsi</label>
-          <input type="text" id="searchInput" placeholder="Ketik nama provinsi (mis. Lampung, Papua)..."
-                 class="w-full px-3.5 py-2 text-sm border border-stone-300 rounded-xl bg-[#FAF8F5] focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#0F4C5C]">
+          <label for="searchInput" class="block text-[11px] font-semibold uppercase tracking-wider text-slate-500 mb-1">Cari Provinsi</label>
+          <input type="text" id="searchInput" placeholder="Ketik nama provinsi (mis. Lampung, Papua, Yogyakarta)..."
+                 class="w-full px-3.5 py-2 text-sm border border-slate-300 rounded-xl bg-slate-50 focus:bg-white focus:outline-none focus:ring-2 focus:ring-teal-600 transition">
         </div>
 
         <div>
-          <label for="clusterFilter" class="block text-[11px] font-semibold uppercase tracking-wider text-stone-500 mb-1">Saring Cluster</label>
-          <select id="clusterFilter"
-                  class="w-full px-3.5 py-2 text-sm border border-stone-300 rounded-xl bg-[#FAF8F5] focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#0F4C5C]">
-            <option value="all">Semua Cluster (38)</option>
-            <option value="1">Cluster 1 — Tertinggi (19)</option>
-            <option value="2">Cluster 2 — Menengah Atas (16)</option>
-            <option value="3">Cluster 3 — Khusus (1)</option>
-            <option value="4">Cluster 4 — Terendah (2)</option>
-          </select>
-        </div>
-
-        <div>
-          <label for="sortSelect" class="block text-[11px] font-semibold uppercase tracking-wider text-stone-500 mb-1">Urutkan Berdasarkan</label>
+          <label for="sortSelect" class="block text-[11px] font-semibold uppercase tracking-wider text-slate-500 mb-1">Urutkan Berdasarkan</label>
           <select id="sortSelect"
-                  class="w-full px-3.5 py-2 text-sm border border-stone-300 rounded-xl bg-[#FAF8F5] focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#0F4C5C]">
+                  class="w-full px-3.5 py-2 text-sm border border-slate-300 rounded-xl bg-slate-50 focus:bg-white focus:outline-none focus:ring-2 focus:ring-teal-600 transition">
             <option value="cluster-asc">Cluster (1 &rarr; 4)</option>
             <option value="sm-desc">APM SMA/SMK (Tertinggi &rarr; Terendah)</option>
             <option value="sm-asc">APM SMA/SMK (Terendah &rarr; Tertinggi)</option>
@@ -357,28 +408,58 @@
         </div>
       </div>
 
-      <p id="resultCount" class="text-xs font-medium text-stone-500 mb-4"></p>
+      <p id="resultCount" class="text-xs font-medium text-slate-500 mb-4"></p>
 
-      <!-- Grid Kartu Provinsi dengan Rincian APM_SD, APM_SMP, APM_SM -->
+      <!-- Grid Kartu Provinsi -->
       <div id="provinceGrid" class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4"></div>
     </section>
 
   </main>
 
-  <footer class="border-t border-stone-200 bg-[#F3EFEA] py-10 mt-14">
-    <div class="max-w-6xl mx-auto px-4 sm:px-6 flex flex-col md:flex-row items-start md:items-center justify-between gap-4 text-xs text-stone-600">
+  <!-- Footer Sesuai Permintaan -->
+  <footer class="border-t border-slate-200 bg-gradient-to-r from-slate-900 via-slate-800 to-slate-900 text-slate-300 py-10 mt-14">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 flex flex-col md:flex-row items-start md:items-center justify-between gap-4 text-xs">
       <div>
-        <p class="font-bold text-stone-900 text-sm">Klasterisasi Provinsi Indonesia Berdasarkan APM Tahun 2025</p>
-        <p class="mt-1">Disusun oleh Fathya Intami &amp; Tim • Program Studi Sains Data / Informatika</p>
+        <p class="font-bold text-white text-sm">Analisis Pengelompokan Provinsi Berdasarkan Angka Partisipasi Murni (APM) Tahun 2025</p>
+        <p class="mt-1 text-teal-300 font-medium">Disusun oleh Kelompok 7 • Program Studi Sains Data — Institut Teknologi Sumatera</p>
       </div>
       <div class="md:text-right">
-        <p>Sumber Data: Badan Pusat Statistik (BPS) Republik Indonesia</p>
-        <p class="mt-1 text-stone-500">Metode: Z-Score Standardization + K-Means Clustering (K = 4)</p>
+        <p class="text-slate-300">Sumber Data: Badan Pusat Statistik (BPS) Republik Indonesia</p>
+        <p class="mt-1 text-amber-300 font-medium">Metode: K-Means Clustering</p>
       </div>
     </div>
   </footer>
 
   <script>
+    // 0. Switch Tab Evaluasi Model
+    function switchEvalView(mode) {
+      const chartBox = document.getElementById('evalChartBox');
+      const tableBox = document.getElementById('evalTableBox');
+      const grid = document.getElementById('evalGrid');
+      const btns = { both: document.getElementById('tabBoth'), chart: document.getElementById('tabChart'), table: document.getElementById('tabTable') };
+
+      Object.values(btns).forEach(b => {
+        b.classList.remove('bg-white', 'text-slate-900', 'shadow-xs');
+        b.classList.add('text-slate-600');
+      });
+      btns[mode].classList.add('bg-white', 'text-slate-900', 'shadow-xs');
+      btns[mode].classList.remove('text-slate-600');
+
+      if (mode === 'both') {
+        grid.className = 'grid lg:grid-cols-2 gap-8 items-center';
+        chartBox.classList.remove('hidden');
+        tableBox.classList.remove('hidden');
+      } else if (mode === 'chart') {
+        grid.className = 'grid grid-cols-1';
+        chartBox.classList.remove('hidden');
+        tableBox.classList.add('hidden');
+      } else {
+        grid.className = 'grid grid-cols-1';
+        chartBox.classList.add('hidden');
+        tableBox.classList.remove('hidden');
+      }
+    }
+
     // 1. Chart Evaluasi Baseline
     new Chart(document.getElementById('evalChart'), {
       type: 'line',
@@ -388,18 +469,22 @@
           {
             label: 'Silhouette Score (↑)',
             data: [0.7832, 0.4587, 0.4561, 0.3605, 0.3435, 0.3453, 0.3685, 0.3670, 0.3687],
-            borderColor: '#0F4C5C',
-            backgroundColor: '#0F4C5C',
-            tension: 0.3,
-            borderWidth: 2.5
+            borderColor: '#0D9488',
+            backgroundColor: '#0D9488',
+            tension: 0.35,
+            borderWidth: 2.5,
+            pointRadius: 4,
+            pointHoverRadius: 6
           },
           {
             label: 'Davies-Bouldin Index (↓)',
             data: [0.3662, 0.6197, 0.4471, 0.6100, 0.6602, 0.7037, 0.6636, 0.6554, 0.5934],
-            borderColor: '#E36414',
-            backgroundColor: '#E36414',
-            tension: 0.3,
-            borderWidth: 2.5
+            borderColor: '#7C3AED',
+            backgroundColor: '#7C3AED',
+            tension: 0.35,
+            borderWidth: 2.5,
+            pointRadius: 4,
+            pointHoverRadius: 6
           }
         ]
       },
@@ -410,7 +495,7 @@
       }
     });
 
-    // 2. Data Lengkap 38 Provinsi (Nama, Cluster, APM_SD, APM_SMP, APM_SM)
+    // 2. Data Lengkap 38 Provinsi
     const provinces = [
       { name: 'DI Yogyakarta', cluster: 1, sd: 98.45, smp: 85.12, sm: 74.80 },
       { name: 'Kep. Riau', cluster: 1, sd: 98.10, smp: 84.35, sm: 73.60 },
@@ -474,9 +559,9 @@
               { x: 0.59, y: -0.12, name: 'Lampung' }, { x: 0.56, y: -0.19, name: 'Banten' },
               { x: 0.53, y: -0.15, name: 'Riau' }
             ],
-            backgroundColor: '#0F4C5C',
+            backgroundColor: '#0D9488',
             pointRadius: 5.5,
-            pointHoverRadius: 7.5
+            pointHoverRadius: 8
           },
           {
             label: 'Cluster 2 (16 Prov)',
@@ -490,16 +575,16 @@
               { x: -0.32, y: 0.28, name: 'Papua Barat Daya' }, { x: -0.38, y: 0.25, name: 'Papua Barat' },
               { x: -0.44, y: -0.19, name: 'Kalimantan Barat' }, { x: -0.52, y: 0.17, name: 'Papua' }
             ],
-            backgroundColor: '#D97706',
+            backgroundColor: '#7C3AED',
             pointRadius: 5.5,
-            pointHoverRadius: 7.5
+            pointHoverRadius: 8
           },
           {
             label: 'Cluster 3 (Papua Selatan)',
             data: [{ x: -2.45, y: 0.48, name: 'Papua Selatan' }],
-            backgroundColor: '#E36414',
-            pointRadius: 7,
-            pointHoverRadius: 9
+            backgroundColor: '#F59E0B',
+            pointRadius: 7.5,
+            pointHoverRadius: 9.5
           },
           {
             label: 'Cluster 4 (2 Prov)',
@@ -507,7 +592,7 @@
               { x: -4.18, y: -0.52, name: 'Papua Tengah' },
               { x: -4.82, y: -0.68, name: 'Papua Pegunungan' }
             ],
-            backgroundColor: '#BE123C',
+            backgroundColor: '#E11D48',
             pointRadius: 6.5,
             pointHoverRadius: 8.5
           },
@@ -519,12 +604,12 @@
               { x: -2.45, y: 0.48, name: 'Centroid Cluster 3' },
               { x: -4.50, y: -0.60, name: 'Centroid Cluster 4' }
             ],
-            backgroundColor: '#1C1917',
+            backgroundColor: '#0F172A',
             borderColor: '#FFFFFF',
             borderWidth: 1.5,
             pointStyle: 'star',
             pointRadius: 9.5,
-            pointHoverRadius: 11.5
+            pointHoverRadius: 12
           }
         ]
       },
@@ -541,11 +626,11 @@
         scales: {
           x: {
             title: { display: true, text: 'Principal Component 1 (PC1 — Indeks Capaian Agregat)', font: { size: 11, weight: '600' } },
-            grid: { color: '#E7E5E4' }
+            grid: { color: '#E2E8F0' }
           },
           y: {
             title: { display: true, text: 'Principal Component 2 (PC2)', font: { size: 11, weight: '600' } },
-            grid: { color: '#E7E5E4' }
+            grid: { color: '#E2E8F0' }
           }
         }
       }
@@ -557,10 +642,10 @@
       data: {
         labels: ['APM SD', 'APM SMP', 'APM SMA/SMK'],
         datasets: [
-          { label: 'Cluster 1 (Tertinggi)', data: [97.22, 81.97, 70.55], backgroundColor: '#0F4C5C' },
-          { label: 'Cluster 2 (Menengah Atas)', data: [95.70, 75.83, 61.67], backgroundColor: '#D97706' },
-          { label: 'Cluster 3 (Papua Selatan)', data: [87.64, 57.72, 45.48], backgroundColor: '#E36414' },
-          { label: 'Cluster 4 (Terendah)', data: [73.70, 55.24, 37.73], backgroundColor: '#BE123C' }
+          { label: 'Cluster 1 (Tertinggi)', data: [97.22, 81.97, 70.55], backgroundColor: '#0D9488', borderRadius: 6 },
+          { label: 'Cluster 2 (Menengah Atas)', data: [95.70, 75.83, 61.67], backgroundColor: '#7C3AED', borderRadius: 6 },
+          { label: 'Cluster 3 (Papua Selatan)', data: [87.64, 57.72, 45.48], backgroundColor: '#F59E0B', borderRadius: 6 },
+          { label: 'Cluster 4 (Terendah)', data: [73.70, 55.24, 37.73], backgroundColor: '#E11D48', borderRadius: 6 }
         ]
       },
       options: {
@@ -570,27 +655,51 @@
       }
     });
 
-    // 5. Render Interaktif Kartu 38 Provinsi + Sortir
+    // 5. Render Interaktif Kartu 38 Provinsi + Pill Filter + Sortir
+    let activeCluster = 'all';
+
     const badgeStyles = {
-      1: { label: 'Cluster 1 • Tertinggi', cls: 'bg-[#0F4C5C]/10 text-[#0F4C5C] border-[#0F4C5C]/25', bar: 'bg-[#0F4C5C]' },
-      2: { label: 'Cluster 2 • Menengah Atas', cls: 'bg-amber-100/80 text-amber-900 border-amber-300', bar: 'bg-[#D97706]' },
-      3: { label: 'Cluster 3 • Khusus', cls: 'bg-orange-100/80 text-[#E36414] border-orange-300', bar: 'bg-[#E36414]' },
-      4: { label: 'Cluster 4 • Terendah', cls: 'bg-rose-100/80 text-[#BE123C] border-rose-300', bar: 'bg-[#BE123C]' }
+      1: { label: 'Cluster 1 • Tertinggi', cls: 'bg-teal-50 text-teal-800 border-teal-200', bar: 'bg-teal-600', cardBg: 'from-teal-50/40' },
+      2: { label: 'Cluster 2 • Menengah Atas', cls: 'bg-violet-50 text-violet-800 border-violet-200', bar: 'bg-violet-600', cardBg: 'from-violet-50/40' },
+      3: { label: 'Cluster 3 • Khusus', cls: 'bg-amber-50 text-amber-800 border-amber-200', bar: 'bg-amber-500', cardBg: 'from-amber-50/40' },
+      4: { label: 'Cluster 4 • Terendah', cls: 'bg-rose-50 text-rose-800 border-rose-200', bar: 'bg-rose-600', cardBg: 'from-rose-50/40' }
     };
 
     const grid = document.getElementById('provinceGrid');
     const searchInput = document.getElementById('searchInput');
-    const clusterFilter = document.getElementById('clusterFilter');
     const sortSelect = document.getElementById('sortSelect');
     const resultCount = document.getElementById('resultCount');
 
+    function setPillFilter(clusterVal) {
+      activeCluster = clusterVal;
+      document.querySelectorAll('.pill-btn').forEach(btn => {
+        const isTarget = btn.getAttribute('data-pill') === clusterVal;
+        if (isTarget) {
+          btn.classList.add('ring-2', 'ring-offset-1', 'ring-slate-900', 'scale-105');
+        } else {
+          btn.classList.remove('ring-2', 'ring-offset-1', 'ring-slate-900', 'scale-105');
+        }
+      });
+      renderProvinces();
+    }
+
+    function quickFilterCluster(clusterVal) {
+      setPillFilter(clusterVal);
+      document.getElementById('eksplorasi-provinsi').scrollIntoView({ behavior: 'smooth' });
+    }
+
+    document.getElementById('resetFilterBtn').addEventListener('click', () => {
+      searchInput.value = '';
+      sortSelect.value = 'cluster-asc';
+      setPillFilter('all');
+    });
+
     function getFilteredAndSorted() {
       const q = searchInput.value.toLowerCase().trim();
-      const c = clusterFilter.value;
       const sortBy = sortSelect.value;
 
       let list = provinces.filter(p =>
-        p.name.toLowerCase().includes(q) && (c === 'all' || String(p.cluster) === c)
+        p.name.toLowerCase().includes(q) && (activeCluster === 'all' || String(p.cluster) === activeCluster)
       );
 
       list.sort((a, b) => {
@@ -610,10 +719,16 @@
       const list = getFilteredAndSorted();
       resultCount.textContent = `Menampilkan ${list.length} dari 38 provinsi`;
 
-      grid.innerHTML = list.map(p => `
-        <div class="p-4 rounded-2xl border border-stone-200 bg-[#FAF8F5]/70 hover:bg-white hover:shadow-sm transition flex flex-col justify-between">
+      if (list.length === 0) {
+        grid.innerHTML = `<div class="col-span-full text-center py-10 text-sm text-slate-500 bg-slate-50 rounded-2xl border border-dashed border-slate-300">Tidak ada provinsi yang cocok dengan pencarian Anda.</div>`;
+        return;
+      }
+
+      grid.innerHTML = list.map((p, idx) => `
+        <div style="animation-delay: ${Math.min(idx * 18, 250)}ms"
+             class="animate-card card-hover p-4 rounded-2xl border border-slate-200/90 bg-gradient-to-br ${badgeStyles[p.cluster].cardBg} via-white to-white flex flex-col justify-between">
           <div class="flex items-start justify-between gap-2 mb-3">
-            <h3 class="font-bold text-sm text-stone-900">${p.name}</h3>
+            <h3 class="font-bold text-sm text-slate-900">${p.name}</h3>
             <span class="text-[11px] font-semibold px-2.5 py-0.5 rounded-full border shrink-0 ${badgeStyles[p.cluster].cls}">
               ${badgeStyles[p.cluster].label}
             </span>
@@ -621,32 +736,32 @@
 
           <div class="space-y-2 text-xs">
             <div>
-              <div class="flex justify-between text-stone-600 mb-0.5">
+              <div class="flex justify-between text-slate-600 mb-0.5">
                 <span>APM SD</span>
-                <span class="font-bold text-stone-900">${p.sd.toFixed(2)}%</span>
+                <span class="font-bold text-slate-900">${p.sd.toFixed(2)}%</span>
               </div>
-              <div class="w-full h-1.5 bg-stone-200 rounded-full overflow-hidden">
-                <div class="h-full ${badgeStyles[p.cluster].bar}" style="width: ${p.sd}%"></div>
+              <div class="w-full h-1.5 bg-slate-200/80 rounded-full overflow-hidden">
+                <div class="h-full ${badgeStyles[p.cluster].bar} transition-all duration-500" style="width: ${p.sd}%"></div>
               </div>
             </div>
 
             <div>
-              <div class="flex justify-between text-stone-600 mb-0.5">
+              <div class="flex justify-between text-slate-600 mb-0.5">
                 <span>APM SMP</span>
-                <span class="font-bold text-stone-900">${p.smp.toFixed(2)}%</span>
+                <span class="font-bold text-slate-900">${p.smp.toFixed(2)}%</span>
               </div>
-              <div class="w-full h-1.5 bg-stone-200 rounded-full overflow-hidden">
-                <div class="h-full ${badgeStyles[p.cluster].bar} opacity-85" style="width: ${p.smp}%"></div>
+              <div class="w-full h-1.5 bg-slate-200/80 rounded-full overflow-hidden">
+                <div class="h-full ${badgeStyles[p.cluster].bar} opacity-85 transition-all duration-500" style="width: ${p.smp}%"></div>
               </div>
             </div>
 
             <div>
-              <div class="flex justify-between text-stone-600 mb-0.5">
+              <div class="flex justify-between text-slate-600 mb-0.5">
                 <span>APM SMA/SMK</span>
-                <span class="font-bold text-stone-900">${p.sm.toFixed(2)}%</span>
+                <span class="font-bold text-slate-900">${p.sm.toFixed(2)}%</span>
               </div>
-              <div class="w-full h-1.5 bg-stone-200 rounded-full overflow-hidden">
-                <div class="h-full ${badgeStyles[p.cluster].bar} opacity-70" style="width: ${p.sm}%"></div>
+              <div class="w-full h-1.5 bg-slate-200/80 rounded-full overflow-hidden">
+                <div class="h-full ${badgeStyles[p.cluster].bar} opacity-70 transition-all duration-500" style="width: ${p.sm}%"></div>
               </div>
             </div>
           </div>
@@ -655,41 +770,8 @@
     }
 
     searchInput.addEventListener('input', renderProvinces);
-    clusterFilter.addEventListener('change', renderProvinces);
     sortSelect.addEventListener('change', renderProvinces);
-    renderProvinces();
-
-    // 6. Fitur Unduh / Export CSV
-    document.getElementById('exportCsvBtn').addEventListener('click', () => {
-      const headers = ['Provinsi', 'Cluster', 'Kategori_Cluster', 'APM_SD', 'APM_SMP', 'APM_SM'];
-      const kategoriMap = {
-        1: 'APM Relatif Tertinggi',
-        2: 'APM Menengah Atas',
-        3: 'APM Menengah Bawah (Khusus)',
-        4: 'APM Relatif Terendah'
-      };
-
-      const rows = provinces.map(p => [
-        `"${p.name}"`,
-        p.cluster,
-        `"${kategoriMap[p.cluster]}"`,
-        p.sd.toFixed(2),
-        p.smp.toFixed(2),
-        p.sm.toFixed(2)
-      ].join(','));
-
-      const csvContent = '\uFEFF' + [headers.join(','), ...rows].join('\n');
-      const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
-      const url = URL.createObjectURL(blob);
-
-      const link = document.createElement('a');
-      link.href = url;
-      link.download = 'Hasil_Klasterisasi_APM_Indonesia_2025_K4.csv';
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
-      URL.revokeObjectURL(url);
-    });
+    setPillFilter('all');
   </script>
 </body>
 </html>
