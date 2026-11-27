@@ -6,6 +6,9 @@
   <title>Analisis Pengelompokan Provinsi Berdasarkan APM Tahun 2025 Menggunakan K-Means Clustering</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <!-- Leaflet CSS & JS untuk Peta Interaktif 38 Provinsi -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <style>
     body { font-family: 'Plus Jakarta Sans', sans-serif; }
@@ -15,6 +18,12 @@
     .card-lift:hover {
       transform: translateY(-4px);
       box-shadow: 0 14px 28px -8px rgba(120, 53, 15, 0.14);
+    }
+    #indonesiaMap {
+      height: 410px;
+      width: 100%;
+      border-radius: 1rem;
+      z-index: 10;
     }
   </style>
 </head>
@@ -31,14 +40,15 @@
         </div>
       </div>
 
-      <div class="hidden lg:flex items-center gap-5 text-xs font-semibold text-stone-600">
-        <a href="#eda" class="hover:text-teal-600 transition">EDA (Korelasi &amp; Distribusi)</a>
+      <div class="hidden lg:flex items-center gap-4 text-xs font-semibold text-stone-600">
+        <a href="#eda" class="hover:text-teal-600 transition">EDA</a>
         <a href="#evaluasi" class="hover:text-amber-600 transition">Evaluasi K</a>
+        <a href="#peta-cluster" class="hover:text-rose-600 transition">Peta Cluster</a>
         <a href="#pca-cluster" class="hover:text-emerald-600 transition">Proyeksi PCA</a>
-        <a href="#profil-cluster" class="hover:text-rose-600 transition">4 Segmen</a>
+        <a href="#profil-cluster" class="hover:text-purple-600 transition">4 Segmen</a>
         <a href="#dropoff" class="hover:text-orange-600 transition">Drop-off</a>
-        <a href="#head-to-head" class="hover:text-purple-600 transition">Bandingkan</a>
-        <a href="#eksplorasi-provinsi" class="hover:text-teal-600 transition">38 Provinsi</a>
+        <a href="#head-to-head" class="hover:text-teal-600 transition">Bandingkan</a>
+        <a href="#eksplorasi-provinsi" class="hover:text-rose-600 transition">38 Provinsi</a>
       </div>
 
       <a href="https://github.com/FathyaIntami/Klasterisasi-Apm-Indonesia-2025/blob/main/PSD.ipynb" target="_blank"
@@ -49,7 +59,7 @@
     </div>
   </nav>
 
-  <!-- Header Solid (Tanpa Gradasi) -->
+  <!-- Header Solid -->
   <header class="bg-[#FCEEE3] border-b border-orange-200 pt-8 pb-12">
     <div class="max-w-6xl mx-auto px-4 sm:px-6">
       <div class="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-white border border-rose-200 text-rose-700 text-xs font-bold mb-4 shadow-2xs">
@@ -81,7 +91,7 @@
         </div>
       </div>
 
-      <!-- 4 Kotak KPI Warna Solid (Tanpa Gradasi) -->
+      <!-- 4 Kotak KPI Warna Solid -->
       <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mt-8">
         <div class="card-lift bg-[#0D9488] text-white rounded-2xl p-5 shadow-md">
           <div class="flex justify-between items-center text-xs font-semibold text-white/90">
@@ -163,7 +173,7 @@
       </div>
 
       <div id="edaGrid" class="grid lg:grid-cols-12 gap-8 items-start">
-        <!-- Matriks Korelasi Pearson (Warna Sesuai Colormap coolwarm Python: -1.00 sampai 1.00) -->
+        <!-- Matriks Korelasi Pearson (Warna Sesuai Colormap coolwarm Python) -->
         <div id="edaCorrBox" class="lg:col-span-5 bg-[#FFF5F5] border border-red-200 rounded-2xl p-5">
           <div class="flex items-center justify-between mb-3">
             <h3 class="text-sm font-bold text-stone-900">Matriks Korelasi Pearson</h3>
@@ -171,33 +181,28 @@
           </div>
 
           <div class="flex items-stretch gap-2.5">
-            <!-- Grid Matriks 3x3 -->
             <div class="flex-1 grid grid-cols-4 gap-1.5 text-center text-xs font-bold">
               <div></div>
               <div class="py-1.5 text-stone-700 text-[11px]">APM_SD</div>
               <div class="py-1.5 text-stone-700 text-[11px]">APM_SMP</div>
               <div class="py-1.5 text-stone-700 text-[11px]">APM_SM</div>
 
-              <!-- Baris APM_SD: 1.000 (#B40426), 0.871 (#CE443D), 0.856 (#D14A40) -->
               <div class="flex items-center justify-end pr-1.5 text-stone-700 text-[11px]">APM_SD</div>
               <div class="py-4 rounded-xl bg-[#B40426] text-white shadow-2xs" title="r = 1.000">1,000</div>
               <div class="py-4 rounded-xl bg-[#CE443D] text-white shadow-2xs" title="r = 0.871">0,871</div>
               <div class="py-4 rounded-xl bg-[#D14A40] text-white shadow-2xs" title="r = 0.856">0,856</div>
 
-              <!-- Baris APM_SMP: 0.871 (#CE443D), 1.000 (#B40426), 0.918 (#C53334) -->
               <div class="flex items-center justify-end pr-1.5 text-stone-700 text-[11px]">APM_SMP</div>
               <div class="py-4 rounded-xl bg-[#CE443D] text-white shadow-2xs" title="r = 0.871">0,871</div>
               <div class="py-4 rounded-xl bg-[#B40426] text-white shadow-2xs" title="r = 1.000">1,000</div>
               <div class="py-4 rounded-xl bg-[#C53334] text-white shadow-2xs" title="r = 0.918">0,918</div>
 
-              <!-- Baris APM_SM: 0.856 (#D14A40), 0.918 (#C53334), 1.000 (#B40426) -->
               <div class="flex items-center justify-end pr-1.5 text-stone-700 text-[11px]">APM_SM</div>
               <div class="py-4 rounded-xl bg-[#D14A40] text-white shadow-2xs" title="r = 0.856">0,856</div>
               <div class="py-4 rounded-xl bg-[#C53334] text-white shadow-2xs" title="r = 0.918">0,918</div>
               <div class="py-4 rounded-xl bg-[#B40426] text-white shadow-2xs" title="r = 1.000">1,000</div>
             </div>
 
-            <!-- Legenda Skala Warna (-1.00 s.d. 1.00 seperti Seaborn coolwarm) -->
             <div class="flex flex-col justify-between items-center pt-7 pb-0.5 text-[10px] font-mono text-stone-600 select-none">
               <span>1.00</span>
               <div class="w-2.5 flex-1 my-1 rounded-full overflow-hidden flex flex-col border border-stone-200">
@@ -280,6 +285,37 @@
       </div>
     </section>
 
+    <!-- PETA PERSEBARAN GEOGRAFIS CLUSTER 38 PROVINSI -->
+    <section id="peta-cluster" class="bg-white rounded-2xl border border-rose-200 p-6 sm:p-8 shadow-sm">
+      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-5">
+        <div>
+          <h2 class="text-xl font-bold text-stone-900">Peta Persebaran Geografis Cluster (38 Provinsi Indonesia)</h2>
+          <p class="text-sm text-stone-500 mt-0.5">Klik atau arahkan kursor ke penanda wilayah di peta untuk melihat detail nilai APM tiap provinsi</p>
+        </div>
+        <div class="flex flex-wrap gap-1.5">
+          <button type="button" onclick="filterMapMarkers('all')" id="mapBtnAll" class="map-filter-btn px-3 py-1 rounded-lg text-xs font-bold bg-stone-900 text-white transition">Semua (38)</button>
+          <button type="button" onclick="filterMapMarkers('1')" id="mapBtn1" class="map-filter-btn px-3 py-1 rounded-lg text-xs font-bold bg-teal-100 text-teal-800 border border-teal-300 transition">C1</button>
+          <button type="button" onclick="filterMapMarkers('2')" id="mapBtn2" class="map-filter-btn px-3 py-1 rounded-lg text-xs font-bold bg-purple-100 text-purple-800 border border-purple-300 transition">C2</button>
+          <button type="button" onclick="filterMapMarkers('3')" id="mapBtn3" class="map-filter-btn px-3 py-1 rounded-lg text-xs font-bold bg-amber-100 text-amber-800 border border-amber-300 transition">C3</button>
+          <button type="button" onclick="filterMapMarkers('4')" id="mapBtn4" class="map-filter-btn px-3 py-1 rounded-lg text-xs font-bold bg-rose-100 text-rose-800 border border-rose-300 transition">C4</button>
+        </div>
+      </div>
+
+      <div class="border border-orange-200 rounded-2xl overflow-hidden shadow-2xs">
+        <div id="indonesiaMap"></div>
+      </div>
+
+      <div class="mt-4 flex flex-wrap items-center justify-between gap-3 text-xs bg-[#FFFBF7] border border-orange-200 rounded-xl px-4 py-3">
+        <div class="flex flex-wrap items-center gap-4">
+          <span class="flex items-center gap-1.5 font-semibold text-stone-700"><span class="w-3.5 h-3.5 rounded-full bg-[#0D9488] border-2 border-white shadow-2xs inline-block"></span> Cluster 1: Tertinggi (19 Prov)</span>
+          <span class="flex items-center gap-1.5 font-semibold text-stone-700"><span class="w-3.5 h-3.5 rounded-full bg-[#9333EA] border-2 border-white shadow-2xs inline-block"></span> Cluster 2: Menengah Atas (16 Prov)</span>
+          <span class="flex items-center gap-1.5 font-semibold text-stone-700"><span class="w-3.5 h-3.5 rounded-full bg-[#F59E0B] border-2 border-white shadow-2xs inline-block"></span> Cluster 3: Khusus (Papua Selatan)</span>
+          <span class="flex items-center gap-1.5 font-semibold text-stone-700"><span class="w-3.5 h-3.5 rounded-full bg-[#E11D48] border-2 border-white shadow-2xs inline-block"></span> Cluster 4: Terendah (2 Prov)</span>
+        </div>
+        <span class="text-stone-500 font-medium">Pola Spasial: Dominasi C1 di Barat &amp; Tengah, C3–C4 terkonsentrasi di Papua</span>
+      </div>
+    </section>
+
     <!-- Bagian B: Proyeksi Spasial 2D Cluster (PCA) -->
     <section id="pca-cluster" class="bg-white rounded-2xl border border-emerald-200 p-6 sm:p-8 shadow-sm">
       <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-6">
@@ -318,7 +354,7 @@
       </div>
     </section>
 
-    <!-- Profil 4 Cluster (Warna Solid Tanpa Gradasi) -->
+    <!-- Profil 4 Cluster (Warna Solid) -->
     <section id="profil-cluster" class="bg-white rounded-2xl border border-rose-200 p-6 sm:p-8 shadow-sm space-y-6">
       <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-2">
         <div>
@@ -336,7 +372,6 @@
         </div>
 
         <div class="lg:col-span-3 grid sm:grid-cols-2 gap-4">
-          <!-- Kotak Cluster 1: Solid Teal Pastel -->
           <button type="button" onclick="quickFilterCluster('1')"
                   class="text-left card-lift bg-[#E6F7F4] rounded-2xl border-2 border-teal-300 p-5 shadow-xs focus:outline-none focus:ring-2 focus:ring-teal-500">
             <div class="flex justify-between items-start">
@@ -352,7 +387,6 @@
             </div>
           </button>
 
-          <!-- Kotak Cluster 2: Solid Purple Pastel -->
           <button type="button" onclick="quickFilterCluster('2')"
                   class="text-left card-lift bg-[#F3E8FF] rounded-2xl border-2 border-purple-300 p-5 shadow-xs focus:outline-none focus:ring-2 focus:ring-purple-500">
             <div class="flex justify-between items-start">
@@ -368,7 +402,6 @@
             </div>
           </button>
 
-          <!-- Kotak Cluster 3: Solid Amber Pastel -->
           <button type="button" onclick="quickFilterCluster('3')"
                   class="text-left card-lift bg-[#FEF3C7] rounded-2xl border-2 border-amber-300 p-5 shadow-xs focus:outline-none focus:ring-2 focus:ring-amber-500">
             <div class="flex justify-between items-start">
@@ -384,7 +417,6 @@
             </div>
           </button>
 
-          <!-- Kotak Cluster 4: Solid Rose Pastel -->
           <button type="button" onclick="quickFilterCluster('4')"
                   class="text-left card-lift bg-[#FFE4E6] rounded-2xl border-2 border-rose-300 p-5 shadow-xs focus:outline-none focus:ring-2 focus:ring-rose-500">
             <div class="flex justify-between items-start">
@@ -405,7 +437,6 @@
 
     <!-- Analisis Drop-off & Head-to-Head Compare -->
     <div class="grid lg:grid-cols-2 gap-6">
-      <!-- Analisis Drop-off -->
       <section id="dropoff" class="bg-white rounded-2xl border border-amber-200 p-6 shadow-sm flex flex-col justify-between">
         <div>
           <div class="flex items-center justify-between gap-2 mb-4">
@@ -428,7 +459,6 @@
         </div>
       </section>
 
-      <!-- Head-to-Head Compare -->
       <section id="head-to-head" class="bg-white rounded-2xl border border-emerald-200 p-6 shadow-sm flex flex-col justify-between">
         <div>
           <div class="flex items-center justify-between gap-2 mb-4">
@@ -457,7 +487,7 @@
       </section>
     </div>
 
-    <!-- Rincian Angka APM 38 Provinsi (Data Riil BPS 2025) -->
+    <!-- Rincian Angka APM 38 Provinsi -->
     <section id="eksplorasi-provinsi" class="bg-white rounded-2xl border border-orange-200 p-6 sm:p-8 shadow-sm">
       <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-5 border-b border-stone-200">
         <div>
@@ -470,7 +500,6 @@
         </button>
       </div>
 
-      <!-- Tombol Pill Filter Cepat -->
       <div class="flex flex-wrap gap-2 mt-5">
         <button type="button" data-pill="all" onclick="setPillFilter('all')"
                 class="pill-btn px-3.5 py-1.5 rounded-full text-xs font-semibold bg-stone-900 text-white transition">
@@ -494,7 +523,6 @@
         </button>
       </div>
 
-      <!-- Kontrol Pencarian & Pengurutan -->
       <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-3 my-5">
         <div class="lg:col-span-2">
           <label for="searchInput" class="block text-[11px] font-semibold uppercase tracking-wider text-stone-500 mb-1">Cari Provinsi</label>
@@ -538,54 +566,130 @@
   </footer>
 
   <script>
-    // Dataset Riil 38 Provinsi BPS Tahun 2025 & Hasil Cluster K-Means (K=4)
+    // Dataset Riil 38 Provinsi BPS Tahun 2025 + Koordinat Geografis (Lat, Lng)
     const provinces = [
       // Cluster 1 (19 Provinsi)
-      { name: 'DI YOGYAKARTA', cluster: 1, sd: 98.77, smp: 88.67, sm: 78.42 },
-      { name: 'KEP. RIAU', cluster: 1, sd: 98.20, smp: 83.55, sm: 76.54 },
-      { name: 'BALI', cluster: 1, sd: 97.05, smp: 84.81, sm: 76.06 },
-      { name: 'KALIMANTAN TIMUR', cluster: 1, sd: 97.68, smp: 82.01, sm: 73.96 },
-      { name: 'KALIMANTAN UTARA', cluster: 1, sd: 97.05, smp: 81.49, sm: 73.13 },
-      { name: 'SUMATERA BARAT', cluster: 1, sd: 97.06, smp: 82.70, sm: 71.57 },
-      { name: 'JAWA TIMUR', cluster: 1, sd: 98.22, smp: 84.49, sm: 70.64 },
-      { name: 'NUSA TENGGARA BARAT', cluster: 1, sd: 97.62, smp: 82.54, sm: 70.43 },
-      { name: 'SUMATERA UTARA', cluster: 1, sd: 95.99, smp: 77.41, sm: 70.40 },
-      { name: 'ACEH', cluster: 1, sd: 96.32, smp: 81.37, sm: 70.36 },
-      { name: 'DKI JAKARTA', cluster: 1, sd: 98.47, smp: 87.55, sm: 69.90 },
-      { name: 'BENGKULU', cluster: 1, sd: 96.12, smp: 78.83, sm: 69.32 },
-      { name: 'SULAWESI TENGAH', cluster: 1, sd: 94.67, smp: 78.28, sm: 68.68 },
-      { name: 'SULAWESI SELATAN', cluster: 1, sd: 96.46, smp: 78.45, sm: 68.10 },
-      { name: 'JAWA TENGAH', cluster: 1, sd: 97.21, smp: 80.29, sm: 67.81 },
-      { name: 'JAWA BARAT', cluster: 1, sd: 98.02, smp: 83.84, sm: 67.33 },
-      { name: 'LAMPUNG', cluster: 1, sd: 97.64, smp: 78.47, sm: 67.22 },
-      { name: 'BANTEN', cluster: 1, sd: 97.09, smp: 81.28, sm: 65.28 },
-      { name: 'RIAU', cluster: 1, sd: 97.54, smp: 81.40, sm: 65.22 },
+      { name: 'DI YOGYAKARTA', cluster: 1, sd: 98.77, smp: 88.67, sm: 78.42, lat: -7.8014, lng: 110.3647 },
+      { name: 'KEP. RIAU', cluster: 1, sd: 98.20, smp: 83.55, sm: 76.54, lat: 0.9186, lng: 104.4670 },
+      { name: 'BALI', cluster: 1, sd: 97.05, smp: 84.81, sm: 76.06, lat: -8.3405, lng: 115.0920 },
+      { name: 'KALIMANTAN TIMUR', cluster: 1, sd: 97.68, smp: 82.01, sm: 73.96, lat: 0.5387, lng: 116.4194 },
+      { name: 'KALIMANTAN UTARA', cluster: 1, sd: 97.05, smp: 81.49, sm: 73.13, lat: 3.0731, lng: 116.0414 },
+      { name: 'SUMATERA BARAT', cluster: 1, sd: 97.06, smp: 82.70, sm: 71.57, lat: -0.7399, lng: 100.8000 },
+      { name: 'JAWA TIMUR', cluster: 1, sd: 98.22, smp: 84.49, sm: 70.64, lat: -7.5361, lng: 112.2384 },
+      { name: 'NUSA TENGGARA BARAT', cluster: 1, sd: 97.62, smp: 82.54, sm: 70.43, lat: -8.6529, lng: 117.3616 },
+      { name: 'SUMATERA UTARA', cluster: 1, sd: 95.99, smp: 77.41, sm: 70.40, lat: 2.1154, lng: 99.5451 },
+      { name: 'ACEH', cluster: 1, sd: 96.32, smp: 81.37, sm: 70.36, lat: 4.6951, lng: 96.7494 },
+      { name: 'DKI JAKARTA', cluster: 1, sd: 98.47, smp: 87.55, sm: 69.90, lat: -6.2088, lng: 106.8456 },
+      { name: 'BENGKULU', cluster: 1, sd: 96.12, smp: 78.83, sm: 69.32, lat: -3.7928, lng: 102.2608 },
+      { name: 'SULAWESI TENGAH', cluster: 1, sd: 94.67, smp: 78.28, sm: 68.68, lat: -1.4300, lng: 121.4456 },
+      { name: 'SULAWESI SELATAN', cluster: 1, sd: 96.46, smp: 78.45, sm: 68.10, lat: -3.6688, lng: 119.9741 },
+      { name: 'JAWA TENGAH', cluster: 1, sd: 97.21, smp: 80.29, sm: 67.81, lat: -7.1510, lng: 110.1403 },
+      { name: 'JAWA BARAT', cluster: 1, sd: 98.02, smp: 83.84, sm: 67.33, lat: -6.9175, lng: 107.6191 },
+      { name: 'LAMPUNG', cluster: 1, sd: 97.64, smp: 78.47, sm: 67.22, lat: -4.5586, lng: 105.4068 },
+      { name: 'BANTEN', cluster: 1, sd: 97.09, smp: 81.28, sm: 65.28, lat: -6.4058, lng: 106.0640 },
+      { name: 'RIAU', cluster: 1, sd: 97.54, smp: 81.40, sm: 65.22, lat: 0.2933, lng: 101.7068 },
 
       // Cluster 2 (16 Provinsi)
-      { name: 'MALUKU', cluster: 2, sd: 95.29, smp: 77.02, sm: 66.29 },
-      { name: 'KEP. BANGKA BELITUNG', cluster: 2, sd: 97.00, smp: 74.06, sm: 65.94 },
-      { name: 'GORONTALO', cluster: 2, sd: 95.75, smp: 72.95, sm: 64.63 },
-      { name: 'KALIMANTAN TENGAH', cluster: 2, sd: 97.55, smp: 78.91, sm: 63.31 },
-      { name: 'SULAWESI TENGGARA', cluster: 2, sd: 95.89, smp: 74.78, sm: 63.31 },
-      { name: 'SUMATERA SELATAN', cluster: 2, sd: 95.98, smp: 74.27, sm: 63.08 },
-      { name: 'JAMBI', cluster: 2, sd: 97.02, smp: 78.47, sm: 63.05 },
-      { name: 'NUSA TENGGARA TIMUR', cluster: 2, sd: 95.45, smp: 77.28, sm: 62.88 },
-      { name: 'MALUKU UTARA', cluster: 2, sd: 95.90, smp: 78.65, sm: 62.32 },
-      { name: 'SULAWESI UTARA', cluster: 2, sd: 96.00, smp: 75.05, sm: 61.26 },
-      { name: 'SULAWESI BARAT', cluster: 2, sd: 95.99, smp: 75.49, sm: 60.89 },
-      { name: 'KALIMANTAN SELATAN', cluster: 2, sd: 97.79, smp: 78.54, sm: 59.77 },
-      { name: 'PAPUA BARAT DAYA', cluster: 2, sd: 94.21, smp: 75.13, sm: 58.71 },
-      { name: 'PAPUA BARAT', cluster: 2, sd: 94.00, smp: 72.24, sm: 57.63 },
-      { name: 'KALIMANTAN BARAT', cluster: 2, sd: 95.65, smp: 72.48, sm: 57.60 },
-      { name: 'PAPUA', cluster: 2, sd: 91.81, smp: 77.95, sm: 56.13 },
+      { name: 'MALUKU', cluster: 2, sd: 95.29, smp: 77.02, sm: 66.29, lat: -3.2385, lng: 130.1453 },
+      { name: 'KEP. BANGKA BELITUNG', cluster: 2, sd: 97.00, smp: 74.06, sm: 65.94, lat: -2.7411, lng: 106.4406 },
+      { name: 'GORONTALO', cluster: 2, sd: 95.75, smp: 72.95, sm: 64.63, lat: 0.6999, lng: 122.4467 },
+      { name: 'KALIMANTAN TENGAH', cluster: 2, sd: 97.55, smp: 78.91, sm: 63.31, lat: -1.6815, lng: 113.3824 },
+      { name: 'SULAWESI TENGGARA', cluster: 2, sd: 95.89, smp: 74.78, sm: 63.31, lat: -4.1449, lng: 122.1746 },
+      { name: 'SUMATERA SELATAN', cluster: 2, sd: 95.98, smp: 74.27, sm: 63.08, lat: -3.3194, lng: 103.9144 },
+      { name: 'JAMBI', cluster: 2, sd: 97.02, smp: 78.47, sm: 63.05, lat: -1.6101, lng: 103.6131 },
+      { name: 'NUSA TENGGARA TIMUR', cluster: 2, sd: 95.45, smp: 77.28, sm: 62.88, lat: -8.6574, lng: 121.0794 },
+      { name: 'MALUKU UTARA', cluster: 2, sd: 95.90, smp: 78.65, sm: 62.32, lat: 1.5709, lng: 127.8088 },
+      { name: 'SULAWESI UTARA', cluster: 2, sd: 96.00, smp: 75.05, sm: 61.26, lat: 0.6247, lng: 123.9750 },
+      { name: 'SULAWESI BARAT', cluster: 2, sd: 95.99, smp: 75.49, sm: 60.89, lat: -2.8441, lng: 119.2321 },
+      { name: 'KALIMANTAN SELATAN', cluster: 2, sd: 97.79, smp: 78.54, sm: 59.77, lat: -3.0926, lng: 115.2838 },
+      { name: 'PAPUA BARAT DAYA', cluster: 2, sd: 94.21, smp: 75.13, sm: 58.71, lat: -0.9167, lng: 131.2500 },
+      { name: 'PAPUA BARAT', cluster: 2, sd: 94.00, smp: 72.24, sm: 57.63, lat: -1.3361, lng: 133.1747 },
+      { name: 'KALIMANTAN BARAT', cluster: 2, sd: 95.65, smp: 72.48, sm: 57.60, lat: -0.2787, lng: 111.4753 },
+      { name: 'PAPUA', cluster: 2, sd: 91.81, smp: 77.95, sm: 56.13, lat: -2.5337, lng: 140.7181 },
 
       // Cluster 3 (1 Provinsi)
-      { name: 'PAPUA SELATAN', cluster: 3, sd: 87.64, smp: 57.72, sm: 45.48 },
+      { name: 'PAPUA SELATAN', cluster: 3, sd: 87.64, smp: 57.72, sm: 45.48, lat: -7.7500, lng: 139.6000 },
 
       // Cluster 4 (2 Provinsi)
-      { name: 'PAPUA PEGUNUNGAN', cluster: 4, sd: 74.85, smp: 56.16, sm: 39.87 },
-      { name: 'PAPUA TENGAH', cluster: 4, sd: 72.55, smp: 54.33, sm: 35.59 }
+      { name: 'PAPUA PEGUNUNGAN', cluster: 4, sd: 74.85, smp: 56.16, sm: 39.87, lat: -4.1000, lng: 138.9500 },
+      { name: 'PAPUA TENGAH', cluster: 4, sd: 72.55, smp: 54.33, sm: 35.59, lat: -3.6500, lng: 136.2500 }
     ];
+
+    // Inisialisasi Peta Interaktif 38 Provinsi Indonesia (Leaflet)
+    const mapColors = { 1: '#0D9488', 2: '#9333EA', 3: '#F59E0B', 4: '#E11D48' };
+    const mapLabels = {
+      1: 'Cluster 1 • Tertinggi',
+      2: 'Cluster 2 • Menengah Atas',
+      3: 'Cluster 3 • Khusus',
+      4: 'Cluster 4 • Terendah'
+    };
+
+    const map = L.map('indonesiaMap', { scrollWheelZoom: false }).setView([-2.4, 118.0], 5);
+    L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
+      attribution: '&copy; OpenStreetMap &copy; CARTO',
+      maxZoom: 12
+    }).addTo(map);
+
+    let markerLayerGroup = L.layerGroup().addTo(map);
+
+    function filterMapMarkers(clusterFilter) {
+      document.querySelectorAll('.map-filter-btn').forEach(btn => {
+        btn.classList.remove('ring-2', 'ring-offset-1', 'ring-stone-900');
+      });
+      const activeMapBtn = document.getElementById('mapBtn' + (clusterFilter === 'all' ? 'All' : clusterFilter));
+      if (activeMapBtn) activeMapBtn.classList.add('ring-2', 'ring-offset-1', 'ring-stone-900');
+
+      markerLayerGroup.clearLayers();
+      provinces
+        .filter(p => clusterFilter === 'all' || String(p.cluster) === clusterFilter)
+        .forEach(p => {
+          const marker = L.circleMarker([p.lat, p.lng], {
+            radius: p.cluster === 3 || p.cluster === 4 ? 10 : 8.5,
+            fillColor: mapColors[p.cluster],
+            color: '#FFFFFF',
+            weight: 2,
+            opacity: 1,
+            fillOpacity: 0.92
+          });
+
+          marker.bindPopup(`
+            <div style="font-family: 'Plus Jakarta Sans', sans-serif; min-width: 170px;">
+              <strong style="font-size: 13px; color: #1c1917;">${p.name}</strong><br/>
+              <span style="display:inline-block; margin: 4px 0 6px; padding: 2px 8px; border-radius: 999px; font-size: 10px; font-weight: 700; color: #fff; background:${mapColors[p.cluster]};">
+                ${mapLabels[p.cluster]}
+              </span>
+              <div style="font-size: 11px; color: #44403c; line-height: 1.5;">
+                • APM SD: <strong>${p.sd.toFixed(2)}%</strong><br/>
+                • APM SMP: <strong>${p.smp.toFixed(2)}%</strong><br/>
+                • APM SMA/SMK: <strong>${p.sm.toFixed(2)}%</strong>
+              </div>
+            </div>
+          `);
+
+          marker.bindTooltip(`<strong>${p.name}</strong> (C${p.cluster})`, { direction: 'top', offset: [0, -6] });
+          marker.addTo(markerLayerGroup);
+        });
+    }
+    filterMapMarkers('all');
+
+    // Sinkronisasi State ke URL Query Parameters
+    let activeCluster = 'all';
+    let currentDistKey = 'sd';
+
+    function syncUrlParams() {
+      const params = new URLSearchParams();
+      params.set('cluster', activeCluster);
+      params.set('provA', document.getElementById('compareProvA').value);
+      params.set('provB', document.getElementById('compareProvB').value);
+      params.set('jenjang', currentDistKey.toUpperCase());
+      params.set('sort', document.getElementById('sortSelect').value);
+
+      const q = document.getElementById('searchInput').value.trim();
+      if (q) params.set('cari', q);
+
+      const newUrl = `${window.location.pathname}?${params.toString()}${window.location.hash}`;
+      window.history.replaceState({}, '', newUrl);
+    }
 
     // 0. Switch Tab EDA
     function switchEdaView(mode) {
@@ -668,14 +772,17 @@
     };
 
     let distChartInstance = null;
-    function updateDistChart(key) {
+    function updateDistChart(key, skipSync = false) {
+      currentDistKey = key;
       document.querySelectorAll('.dist-btn').forEach(b => {
         b.classList.remove('bg-teal-600', 'text-white');
         b.classList.add('bg-white', 'text-stone-700', 'border', 'border-teal-200');
       });
       const activeBtn = document.getElementById('distBtn' + key.charAt(0).toUpperCase() + key.slice(1));
-      activeBtn.classList.add('bg-teal-600', 'text-white');
-      activeBtn.classList.remove('bg-white', 'text-stone-700', 'border', 'border-teal-200');
+      if (activeBtn) {
+        activeBtn.classList.add('bg-teal-600', 'text-white');
+        activeBtn.classList.remove('bg-white', 'text-stone-700', 'border', 'border-teal-200');
+      }
 
       const d = distDataMap[key];
       document.getElementById('distCaption').textContent = d.caption;
@@ -701,8 +808,8 @@
           }
         }
       });
+      if (!skipSync) syncUrlParams();
     }
-    updateDistChart('sd');
 
     // 1. Chart Evaluasi Baseline
     new Chart(document.getElementById('evalChart'), {
@@ -849,13 +956,11 @@
       selectA.innerHTML += `<option value="${p.name}">${p.name} (C${p.cluster})</option>`;
       selectB.innerHTML += `<option value="${p.name}">${p.name} (C${p.cluster})</option>`;
     });
-    selectA.value = 'LAMPUNG';
-    selectB.value = 'DI YOGYAKARTA';
 
     let compareChartInstance = null;
-    function updateHeadToHead() {
-      const pA = provinces.find(p => p.name === selectA.value);
-      const pB = provinces.find(p => p.name === selectB.value);
+    function updateHeadToHead(skipSync = false) {
+      const pA = provinces.find(p => p.name === selectA.value) || provinces[0];
+      const pB = provinces.find(p => p.name === selectB.value) || provinces[1];
 
       if (compareChartInstance) compareChartInstance.destroy();
       compareChartInstance = new Chart(document.getElementById('compareChart'), {
@@ -889,15 +994,14 @@
           </div>
         `;
       }).join('');
+
+      if (!skipSync) syncUrlParams();
     }
 
-    selectA.addEventListener('change', updateHeadToHead);
-    selectB.addEventListener('change', updateHeadToHead);
-    updateHeadToHead();
+    selectA.addEventListener('change', () => updateHeadToHead(false));
+    selectB.addEventListener('change', () => updateHeadToHead(false));
 
-    // 7. Render Kartu 38 Provinsi (Latar Belakang Solid Tanpa Gradasi)
-    let activeCluster = 'all';
-
+    // 7. Render Kartu 38 Provinsi
     const badgeStyles = {
       1: {
         label: 'Cluster 1 • Tertinggi',
@@ -930,7 +1034,7 @@
     const sortSelect = document.getElementById('sortSelect');
     const resultCount = document.getElementById('resultCount');
 
-    function setPillFilter(clusterVal) {
+    function setPillFilter(clusterVal, skipSync = false) {
       activeCluster = clusterVal;
       document.querySelectorAll('.pill-btn').forEach(btn => {
         const isTarget = btn.getAttribute('data-pill') === clusterVal;
@@ -940,18 +1044,18 @@
           btn.classList.remove('ring-2', 'ring-offset-1', 'ring-rose-500');
         }
       });
-      renderProvinces();
+      renderProvinces(skipSync);
     }
 
     function quickFilterCluster(clusterVal) {
-      setPillFilter(clusterVal);
+      setPillFilter(clusterVal, false);
       document.getElementById('eksplorasi-provinsi').scrollIntoView({ behavior: 'smooth' });
     }
 
     document.getElementById('resetFilterBtn').addEventListener('click', () => {
       searchInput.value = '';
       sortSelect.value = 'cluster-asc';
-      setPillFilter('all');
+      setPillFilter('all', false);
     });
 
     function getFilteredAndSorted() {
@@ -975,62 +1079,80 @@
       return list;
     }
 
-    function renderProvinces() {
+    function renderProvinces(skipSync = false) {
       const list = getFilteredAndSorted();
       resultCount.textContent = `Menampilkan ${list.length} dari 38 provinsi`;
 
       if (list.length === 0) {
         grid.innerHTML = `<div class="col-span-full text-center py-10 text-sm text-stone-500 bg-stone-50 rounded-xl border border-dashed border-stone-300">Tidak ada provinsi yang cocok dengan pencarian Anda.</div>`;
-        return;
+      } else {
+        grid.innerHTML = list.map(p => `
+          <div class="card-lift p-4 rounded-2xl border ${badgeStyles[p.cluster].card} flex flex-col justify-between">
+            <div class="flex items-start justify-between gap-2 mb-3">
+              <h3 class="font-bold text-sm text-stone-900">${p.name}</h3>
+              <span class="text-[11px] font-semibold px-2.5 py-0.5 rounded-full border shrink-0 ${badgeStyles[p.cluster].cls}">
+                ${badgeStyles[p.cluster].label}
+              </span>
+            </div>
+
+            <div class="space-y-2 text-xs">
+              <div>
+                <div class="flex justify-between text-stone-700 mb-0.5">
+                  <span>APM SD</span>
+                  <span class="font-bold text-stone-900">${p.sd.toFixed(2)}%</span>
+                </div>
+                <div class="w-full h-2 bg-white rounded-full overflow-hidden">
+                  <div class="h-full ${badgeStyles[p.cluster].bar}" style="width: ${p.sd}%"></div>
+                </div>
+              </div>
+
+              <div>
+                <div class="flex justify-between text-stone-700 mb-0.5">
+                  <span>APM SMP</span>
+                  <span class="font-bold text-stone-900">${p.smp.toFixed(2)}%</span>
+                </div>
+                <div class="w-full h-2 bg-white rounded-full overflow-hidden">
+                  <div class="h-full ${badgeStyles[p.cluster].bar} opacity-85" style="width: ${p.smp}%"></div>
+                </div>
+              </div>
+
+              <div>
+                <div class="flex justify-between text-stone-700 mb-0.5">
+                  <span>APM SMA/SMK</span>
+                  <span class="font-bold text-stone-900">${p.sm.toFixed(2)}%</span>
+                </div>
+                <div class="w-full h-2 bg-white rounded-full overflow-hidden">
+                  <div class="h-full ${badgeStyles[p.cluster].bar} opacity-70" style="width: ${p.sm}%"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        `).join('');
       }
 
-      grid.innerHTML = list.map(p => `
-        <div class="card-lift p-4 rounded-2xl border ${badgeStyles[p.cluster].card} flex flex-col justify-between">
-          <div class="flex items-start justify-between gap-2 mb-3">
-            <h3 class="font-bold text-sm text-stone-900">${p.name}</h3>
-            <span class="text-[11px] font-semibold px-2.5 py-0.5 rounded-full border shrink-0 ${badgeStyles[p.cluster].cls}">
-              ${badgeStyles[p.cluster].label}
-            </span>
-          </div>
-
-          <div class="space-y-2 text-xs">
-            <div>
-              <div class="flex justify-between text-stone-700 mb-0.5">
-                <span>APM SD</span>
-                <span class="font-bold text-stone-900">${p.sd.toFixed(2)}%</span>
-              </div>
-              <div class="w-full h-2 bg-white rounded-full overflow-hidden">
-                <div class="h-full ${badgeStyles[p.cluster].bar}" style="width: ${p.sd}%"></div>
-              </div>
-            </div>
-
-            <div>
-              <div class="flex justify-between text-stone-700 mb-0.5">
-                <span>APM SMP</span>
-                <span class="font-bold text-stone-900">${p.smp.toFixed(2)}%</span>
-              </div>
-              <div class="w-full h-2 bg-white rounded-full overflow-hidden">
-                <div class="h-full ${badgeStyles[p.cluster].bar} opacity-85" style="width: ${p.smp}%"></div>
-              </div>
-            </div>
-
-            <div>
-              <div class="flex justify-between text-stone-700 mb-0.5">
-                <span>APM SMA/SMK</span>
-                <span class="font-bold text-stone-900">${p.sm.toFixed(2)}%</span>
-              </div>
-              <div class="w-full h-2 bg-white rounded-full overflow-hidden">
-                <div class="h-full ${badgeStyles[p.cluster].bar} opacity-70" style="width: ${p.sm}%"></div>
-              </div>
-            </div>
-          </div>
-        </div>
-      `).join('');
+      if (!skipSync) syncUrlParams();
     }
 
-    searchInput.addEventListener('input', renderProvinces);
-    sortSelect.addEventListener('change', renderProvinces);
-    setPillFilter('all');
+    searchInput.addEventListener('input', () => renderProvinces(false));
+    sortSelect.addEventListener('change', () => renderProvinces(false));
+
+    // Inisialisasi State Awal dari URL Query Parameters
+    const initParams = new URLSearchParams(window.location.search);
+    const initCluster = ['all', '1', '2', '3', '4'].includes(initParams.get('cluster')) ? initParams.get('cluster') : 'all';
+    const initProvA = provinces.some(p => p.name === initParams.get('provA')) ? initParams.get('provA') : 'LAMPUNG';
+    const initProvB = provinces.some(p => p.name === initParams.get('provB')) ? initParams.get('provB') : 'DI YOGYAKARTA';
+    const initJenjang = ['sd', 'smp', 'sm'].includes((initParams.get('jenjang') || '').toLowerCase()) ? initParams.get('jenjang').toLowerCase() : 'sd';
+    const initSort = ['cluster-asc', 'sm-desc', 'sm-asc', 'smp-desc', 'sd-desc', 'name-asc'].includes(initParams.get('sort')) ? initParams.get('sort') : 'cluster-asc';
+    const initCari = initParams.get('cari') || '';
+
+    selectA.value = initProvA;
+    selectB.value = initProvB;
+    sortSelect.value = initSort;
+    searchInput.value = initCari;
+
+    updateDistChart(initJenjang, true);
+    updateHeadToHead(true);
+    setPillFilter(initCluster, false);
   </script>
 </body>
 </html>
