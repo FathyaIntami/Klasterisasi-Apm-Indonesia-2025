@@ -16,20 +16,15 @@
       transform: translateY(-4px);
       box-shadow: 0 14px 28px -8px rgba(120, 53, 15, 0.14);
     }
-    /* Kartu KPI Colorful Non-Biru (Emerald, Coral, Amber, Plum) */
-    .kpi-emerald { background: linear-gradient(135deg, #10B981 0%, #0D9488 100%); }
-    .kpi-coral { background: linear-gradient(135deg, #F43F5E 0%, #FB7185 100%); }
-    .kpi-amber { background: linear-gradient(135deg, #F59E0B 0%, #EA580C 100%); }
-    .kpi-plum { background: linear-gradient(135deg, #A855F7 0%, #DB2777 100%); }
   </style>
 </head>
-<body class="bg-gradient-to-br from-[#FFF8F1] via-[#FDF2F8] to-[#ECFDF5] text-stone-800 antialiased min-h-screen">
+<body class="bg-[#FDF7F2] text-stone-800 antialiased min-h-screen">
 
-  <!-- Navbar -->
-  <nav class="sticky top-0 z-50 bg-white/90 backdrop-blur border-b border-orange-200/70 shadow-2xs">
+  <!-- Navbar Solid -->
+  <nav class="sticky top-0 z-50 bg-white border-b border-orange-200 shadow-2xs">
     <div class="max-w-6xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
       <div class="flex items-center gap-2.5">
-        <span class="w-9 h-9 rounded-xl bg-gradient-to-br from-rose-500 to-amber-500 text-white font-extrabold flex items-center justify-center text-sm shadow-xs">K4</span>
+        <span class="w-9 h-9 rounded-xl bg-rose-600 text-white font-extrabold flex items-center justify-center text-sm shadow-xs">K4</span>
         <div>
           <span class="font-bold text-stone-900 tracking-tight block leading-none">Klasterisasi APM 2025</span>
           <span class="text-[11px] text-rose-600 font-semibold">Kelompok 7 • Sains Data ITERA</span>
@@ -42,7 +37,7 @@
         <a href="#pca-cluster" class="hover:text-emerald-600 transition">Proyeksi PCA</a>
         <a href="#profil-cluster" class="hover:text-rose-600 transition">4 Segmen</a>
         <a href="#dropoff" class="hover:text-orange-600 transition">Drop-off</a>
-        <a href="#head-to-head" class="hover:text-fuchsia-600 transition">Bandingkan</a>
+        <a href="#head-to-head" class="hover:text-purple-600 transition">Bandingkan</a>
         <a href="#eksplorasi-provinsi" class="hover:text-teal-600 transition">38 Provinsi</a>
       </div>
 
@@ -54,8 +49,8 @@
     </div>
   </nav>
 
-  <!-- Header & 4 Kartu KPI Colorful -->
-  <header class="bg-gradient-to-r from-amber-100/80 via-rose-50/80 to-emerald-100/70 border-b border-orange-200/80 pt-8 pb-12">
+  <!-- Header Solid (Tanpa Gradasi) -->
+  <header class="bg-[#FCEEE3] border-b border-orange-200 pt-8 pb-12">
     <div class="max-w-6xl mx-auto px-4 sm:px-6">
       <div class="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-white border border-rose-200 text-rose-700 text-xs font-bold mb-4 shadow-2xs">
         <span>Projek Sains Data</span>
@@ -72,10 +67,10 @@
       </p>
 
       <!-- Identitas Kelompok 7 -->
-      <div class="mt-5 inline-block w-full max-w-3xl bg-white/95 border border-orange-200 rounded-2xl px-4 py-3 shadow-2xs">
-        <div class="flex flex-wrap items-center justify-between gap-2 pb-2 border-b border-stone-200/80">
+      <div class="mt-5 inline-block w-full max-w-3xl bg-white border border-orange-200 rounded-2xl px-4 py-3 shadow-2xs">
+        <div class="flex flex-wrap items-center justify-between gap-2 pb-2 border-b border-stone-200">
           <span class="text-xs font-bold text-stone-800">Program Studi Sains Data - Projek Sains Data</span>
-          <span class="px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-gradient-to-r from-rose-500 to-amber-500 text-white">
+          <span class="px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-rose-600 text-white">
             Kelompok 7
           </span>
         </div>
@@ -86,9 +81,9 @@
         </div>
       </div>
 
-      <!-- 4 Kotak KPI Colorful (Emerald, Coral, Amber, Plum) -->
+      <!-- 4 Kotak KPI Warna Solid (Tanpa Gradasi) -->
       <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mt-8">
-        <div class="card-lift kpi-emerald text-white rounded-2xl p-5 shadow-md">
+        <div class="card-lift bg-[#0D9488] text-white rounded-2xl p-5 shadow-md">
           <div class="flex justify-between items-center text-xs font-semibold text-white/90">
             <span>Cakupan Wilayah</span>
             <span class="bg-white/20 px-2 py-0.5 rounded-md">100% Data</span>
@@ -103,7 +98,7 @@
           </div>
         </div>
 
-        <div class="card-lift kpi-coral text-white rounded-2xl p-5 shadow-md">
+        <div class="card-lift bg-[#E11D48] text-white rounded-2xl p-5 shadow-md">
           <div class="flex justify-between items-center text-xs font-semibold text-white/90">
             <span>Jumlah Cluster</span>
             <span class="bg-white/20 px-2 py-0.5 rounded-md">Optimal</span>
@@ -118,7 +113,7 @@
           </div>
         </div>
 
-        <div class="card-lift kpi-amber text-white rounded-2xl p-5 shadow-md">
+        <div class="card-lift bg-[#D97706] text-white rounded-2xl p-5 shadow-md">
           <div class="flex justify-between items-center text-xs font-semibold text-white/90">
             <span>Silhouette Score</span>
             <span class="bg-white/20 px-2 py-0.5 rounded-md">Puncak K&ge;4</span>
@@ -133,7 +128,7 @@
           </div>
         </div>
 
-        <div class="card-lift kpi-plum text-white rounded-2xl p-5 shadow-md">
+        <div class="card-lift bg-[#7E22CE] text-white rounded-2xl p-5 shadow-md">
           <div class="flex justify-between items-center text-xs font-semibold text-white/90">
             <span>Davies-Bouldin</span>
             <span class="bg-white/20 px-2 py-0.5 rounded-md">Minimum</span>
@@ -154,7 +149,7 @@
   <main class="max-w-6xl mx-auto px-4 sm:px-6 py-10 space-y-10">
 
     <!-- Exploratory Data Analysis (Korelasi & Distribusi) -->
-    <section id="eda" class="bg-white/95 rounded-2xl border border-teal-200/80 p-6 sm:p-8 shadow-sm">
+    <section id="eda" class="bg-white rounded-2xl border border-teal-200 p-6 sm:p-8 shadow-sm">
       <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-6">
         <div>
           <h2 class="text-xl font-bold text-stone-900">Eksplorasi Data (EDA): Korelasi &amp; Distribusi APM</h2>
@@ -167,43 +162,63 @@
         </div>
       </div>
 
-      <div id="edaGrid" class="grid lg:grid-cols-5 gap-8 items-start">
-        <!-- Matriks Korelasi Pearson -->
-        <div id="edaCorrBox" class="lg:col-span-2 bg-rose-50/75 border border-rose-200 rounded-2xl p-5">
+      <div id="edaGrid" class="grid lg:grid-cols-12 gap-8 items-start">
+        <!-- Matriks Korelasi Pearson (Warna Sesuai Colormap coolwarm Python: -1.00 sampai 1.00) -->
+        <div id="edaCorrBox" class="lg:col-span-5 bg-[#FFF5F5] border border-red-200 rounded-2xl p-5">
           <div class="flex items-center justify-between mb-3">
             <h3 class="text-sm font-bold text-stone-900">Matriks Korelasi Pearson</h3>
-            <span class="text-[11px] font-semibold text-rose-700 bg-rose-100 px-2 py-0.5 rounded-md border border-rose-200">r &gt; 0,85</span>
+            <span class="text-[11px] font-semibold text-red-800 bg-red-100 px-2 py-0.5 rounded-md border border-red-200">Skala coolwarm</span>
           </div>
 
-          <div class="grid grid-cols-4 gap-1.5 text-center text-xs font-bold">
-            <div></div>
-            <div class="py-1.5 text-stone-700">APM_SD</div>
-            <div class="py-1.5 text-stone-700">APM_SMP</div>
-            <div class="py-1.5 text-stone-700">APM_SM</div>
+          <div class="flex items-stretch gap-2.5">
+            <!-- Grid Matriks 3x3 -->
+            <div class="flex-1 grid grid-cols-4 gap-1.5 text-center text-xs font-bold">
+              <div></div>
+              <div class="py-1.5 text-stone-700 text-[11px]">APM_SD</div>
+              <div class="py-1.5 text-stone-700 text-[11px]">APM_SMP</div>
+              <div class="py-1.5 text-stone-700 text-[11px]">APM_SM</div>
 
-            <div class="flex items-center justify-end pr-2 text-stone-700">APM_SD</div>
-            <div class="py-4 rounded-xl bg-[#BE123C] text-white shadow-2xs">1,000</div>
-            <div class="py-4 rounded-xl bg-[#E11D48] text-white shadow-2xs">0,871</div>
-            <div class="py-4 rounded-xl bg-[#F43F5E] text-white shadow-2xs">0,856</div>
+              <!-- Baris APM_SD: 1.000 (#B40426), 0.871 (#CE443D), 0.856 (#D14A40) -->
+              <div class="flex items-center justify-end pr-1.5 text-stone-700 text-[11px]">APM_SD</div>
+              <div class="py-4 rounded-xl bg-[#B40426] text-white shadow-2xs" title="r = 1.000">1,000</div>
+              <div class="py-4 rounded-xl bg-[#CE443D] text-white shadow-2xs" title="r = 0.871">0,871</div>
+              <div class="py-4 rounded-xl bg-[#D14A40] text-white shadow-2xs" title="r = 0.856">0,856</div>
 
-            <div class="flex items-center justify-end pr-2 text-stone-700">APM_SMP</div>
-            <div class="py-4 rounded-xl bg-[#E11D48] text-white shadow-2xs">0,871</div>
-            <div class="py-4 rounded-xl bg-[#BE123C] text-white shadow-2xs">1,000</div>
-            <div class="py-4 rounded-xl bg-[#D946EF] text-white shadow-2xs">0,918</div>
+              <!-- Baris APM_SMP: 0.871 (#CE443D), 1.000 (#B40426), 0.918 (#C53334) -->
+              <div class="flex items-center justify-end pr-1.5 text-stone-700 text-[11px]">APM_SMP</div>
+              <div class="py-4 rounded-xl bg-[#CE443D] text-white shadow-2xs" title="r = 0.871">0,871</div>
+              <div class="py-4 rounded-xl bg-[#B40426] text-white shadow-2xs" title="r = 1.000">1,000</div>
+              <div class="py-4 rounded-xl bg-[#C53334] text-white shadow-2xs" title="r = 0.918">0,918</div>
 
-            <div class="flex items-center justify-end pr-2 text-stone-700">APM_SM</div>
-            <div class="py-4 rounded-xl bg-[#F43F5E] text-white shadow-2xs">0,856</div>
-            <div class="py-4 rounded-xl bg-[#D946EF] text-white shadow-2xs">0,918</div>
-            <div class="py-4 rounded-xl bg-[#BE123C] text-white shadow-2xs">1,000</div>
+              <!-- Baris APM_SM: 0.856 (#D14A40), 0.918 (#C53334), 1.000 (#B40426) -->
+              <div class="flex items-center justify-end pr-1.5 text-stone-700 text-[11px]">APM_SM</div>
+              <div class="py-4 rounded-xl bg-[#D14A40] text-white shadow-2xs" title="r = 0.856">0,856</div>
+              <div class="py-4 rounded-xl bg-[#C53334] text-white shadow-2xs" title="r = 0.918">0,918</div>
+              <div class="py-4 rounded-xl bg-[#B40426] text-white shadow-2xs" title="r = 1.000">1,000</div>
+            </div>
+
+            <!-- Legenda Skala Warna (-1.00 s.d. 1.00 seperti Seaborn coolwarm) -->
+            <div class="flex flex-col justify-between items-center pt-7 pb-0.5 text-[10px] font-mono text-stone-600 select-none">
+              <span>1.00</span>
+              <div class="w-2.5 flex-1 my-1 rounded-full overflow-hidden flex flex-col border border-stone-200">
+                <div class="flex-1 bg-[#B40426]"></div>
+                <div class="flex-1 bg-[#D14A40]"></div>
+                <div class="flex-1 bg-[#F4987A]"></div>
+                <div class="flex-1 bg-[#DDDCDC]"></div>
+                <div class="flex-1 bg-[#8DB0FE]"></div>
+                <div class="flex-1 bg-[#3B4CC0]"></div>
+              </div>
+              <span>-1.00</span>
+            </div>
           </div>
 
           <p class="text-xs text-stone-700 mt-4 leading-relaxed">
-            Korelasi tertinggi terjadi antara <strong>APM_SMP dan APM_SM (0,918)</strong>. Artinya, provinsi dengan retensi SMP yang baik cenderung mempertahankan siswa hingga SMA/SMK.
+            Intensitas warna merah mengikuti besarnya nilai koefisien (semakin mendekati <strong>1,000</strong> semakin merah pekat). Korelasi tertinggi terjadi antara <strong>APM_SMP dan APM_SM (0,918)</strong>.
           </p>
         </div>
 
         <!-- Histogram Distribusi 3 Jenjang -->
-        <div id="edaDistBox" class="lg:col-span-3 bg-emerald-50/70 border border-emerald-200 rounded-2xl p-5">
+        <div id="edaDistBox" class="lg:col-span-7 bg-[#F0FDF4] border border-emerald-200 rounded-2xl p-5">
           <div class="flex flex-wrap items-center justify-between gap-2 mb-4">
             <h3 class="text-sm font-bold text-stone-900">Distribusi Frekuensi (Histogram 38 Provinsi)</h3>
             <div class="inline-flex gap-1.5">
@@ -219,7 +234,7 @@
     </section>
 
     <!-- Bagian A: Evaluasi Model Baseline -->
-    <section id="evaluasi" class="bg-white/95 rounded-2xl border border-amber-200/90 p-6 sm:p-8 shadow-sm">
+    <section id="evaluasi" class="bg-white rounded-2xl border border-amber-200 p-6 sm:p-8 shadow-sm">
       <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-6">
         <div>
           <h2 class="text-xl font-bold text-stone-900">Evaluasi Model Baseline (K = 2 hingga K = 10)</h2>
@@ -231,13 +246,13 @@
       </div>
 
       <div class="grid lg:grid-cols-12 gap-8 items-center">
-        <div class="lg:col-span-7 bg-amber-50/50 border border-amber-200/80 rounded-2xl p-4">
+        <div class="lg:col-span-7 bg-[#FFFBEB] border border-amber-200 rounded-2xl p-4">
           <canvas id="evalChart" height="200"></canvas>
         </div>
 
         <div class="lg:col-span-5 overflow-x-auto rounded-2xl border border-orange-200">
           <table class="w-full text-xs sm:text-sm text-left border-collapse">
-            <thead class="bg-gradient-to-r from-rose-500 to-amber-500 text-white">
+            <thead class="bg-rose-600 text-white">
               <tr>
                 <th class="py-2.5 px-3">K</th>
                 <th class="py-2.5 px-3">Silhouette &uarr;</th>
@@ -247,18 +262,18 @@
               </tr>
             </thead>
             <tbody class="divide-y divide-stone-200 bg-white">
-              <tr class="hover:bg-orange-50/40"><td class="py-2 px-3">2</td><td class="py-2 px-3">0,7832</td><td class="py-2 px-3">0,3662</td><td class="py-2 px-3">93,32</td><td class="py-2 px-3 font-mono text-xs">[3, 35]</td></tr>
-              <tr class="hover:bg-orange-50/40"><td class="py-2 px-3">3</td><td class="py-2 px-3">0,4587</td><td class="py-2 px-3">0,6197</td><td class="py-2 px-3">104,38</td><td class="py-2 px-3 font-mono text-xs">[3, 16, 19]</td></tr>
-              <tr class="bg-amber-100/90 font-bold text-stone-900">
+              <tr class="hover:bg-orange-50"><td class="py-2 px-3">2</td><td class="py-2 px-3">0,7832</td><td class="py-2 px-3">0,3662</td><td class="py-2 px-3">93,32</td><td class="py-2 px-3 font-mono text-xs">[3, 35]</td></tr>
+              <tr class="hover:bg-orange-50"><td class="py-2 px-3">3</td><td class="py-2 px-3">0,4587</td><td class="py-2 px-3">0,6197</td><td class="py-2 px-3">104,38</td><td class="py-2 px-3 font-mono text-xs">[3, 16, 19]</td></tr>
+              <tr class="bg-amber-100 font-bold text-stone-900">
                 <td class="py-2.5 px-3 text-amber-800">4 &#9733;</td>
                 <td class="py-2.5 px-3 text-teal-700">0,4561</td>
                 <td class="py-2.5 px-3 text-rose-600">0,4471</td>
                 <td class="py-2.5 px-3">102,27</td>
                 <td class="py-2.5 px-3 font-mono text-xs">[1, 2, 16, 19]</td>
               </tr>
-              <tr class="hover:bg-orange-50/40"><td class="py-2 px-3">5</td><td class="py-2 px-3">0,3605</td><td class="py-2 px-3">0,6100</td><td class="py-2 px-3">115,38</td><td class="py-2 px-3 font-mono text-xs">[1, 2, 11, 11, 13]</td></tr>
-              <tr class="hover:bg-orange-50/40"><td class="py-2 px-3">6</td><td class="py-2 px-3">0,3435</td><td class="py-2 px-3">0,6602</td><td class="py-2 px-3">117,05</td><td class="py-2 px-3 font-mono text-xs">[1, 2, 4, 9, 10, 12]</td></tr>
-              <tr class="hover:bg-orange-50/40"><td class="py-2 px-3">7</td><td class="py-2 px-3">0,3453</td><td class="py-2 px-3">0,7037</td><td class="py-2 px-3">118,42</td><td class="py-2 px-3 font-mono text-xs">[1, 2, 3, 4, 8, 9, 11]</td></tr>
+              <tr class="hover:bg-orange-50"><td class="py-2 px-3">5</td><td class="py-2 px-3">0,3605</td><td class="py-2 px-3">0,6100</td><td class="py-2 px-3">115,38</td><td class="py-2 px-3 font-mono text-xs">[1, 2, 11, 11, 13]</td></tr>
+              <tr class="hover:bg-orange-50"><td class="py-2 px-3">6</td><td class="py-2 px-3">0,3435</td><td class="py-2 px-3">0,6602</td><td class="py-2 px-3">117,05</td><td class="py-2 px-3 font-mono text-xs">[1, 2, 4, 9, 10, 12]</td></tr>
+              <tr class="hover:bg-orange-50"><td class="py-2 px-3">7</td><td class="py-2 px-3">0,3453</td><td class="py-2 px-3">0,7037</td><td class="py-2 px-3">118,42</td><td class="py-2 px-3 font-mono text-xs">[1, 2, 3, 4, 8, 9, 11]</td></tr>
             </tbody>
           </table>
         </div>
@@ -266,7 +281,7 @@
     </section>
 
     <!-- Bagian B: Proyeksi Spasial 2D Cluster (PCA) -->
-    <section id="pca-cluster" class="bg-white/95 rounded-2xl border border-emerald-200/90 p-6 sm:p-8 shadow-sm">
+    <section id="pca-cluster" class="bg-white rounded-2xl border border-emerald-200 p-6 sm:p-8 shadow-sm">
       <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-6">
         <div>
           <h2 class="text-xl font-bold text-stone-900">Proyeksi Spasial 2D Cluster (Principal Component Analysis)</h2>
@@ -278,19 +293,19 @@
       </div>
 
       <div class="grid lg:grid-cols-12 gap-8 items-center">
-        <div class="lg:col-span-8 bg-emerald-50/40 border border-emerald-200/80 rounded-2xl p-4">
+        <div class="lg:col-span-8 bg-[#F0FDF4] border border-emerald-200 rounded-2xl p-4">
           <canvas id="pcaScatterChart" height="190"></canvas>
         </div>
 
         <div class="lg:col-span-4 space-y-4">
-          <div class="p-4 rounded-2xl bg-emerald-50 border border-emerald-200 text-xs text-stone-700 leading-relaxed">
+          <div class="p-4 rounded-2xl bg-[#ECFDF5] border border-emerald-200 text-xs text-stone-700 leading-relaxed">
             <h3 class="font-bold text-emerald-950 text-sm mb-1">Interpretasi Plot PC1 vs PC2</h3>
             <p>
               Sumbu <strong>PC1</strong> memisahkan provinsi berdasarkan tingkat partisipasi agregat dari kiri (terendah: <em>Papua Tengah &amp; Pegunungan</em>) ke kanan (tertinggi: <em>DI Yogyakarta, Kep. Riau, Bali</em>), sedangkan bintang gelap menunjukkan posisi <strong>Centroid</strong> tiap cluster.
             </p>
           </div>
 
-          <div class="p-4 rounded-2xl bg-rose-50/70 border border-rose-200 space-y-2 text-xs">
+          <div class="p-4 rounded-2xl bg-[#FFF1F2] border border-rose-200 space-y-2 text-xs">
             <p class="font-bold text-rose-950">Legenda Warna Cluster:</p>
             <ul class="space-y-1.5 text-stone-700">
               <li class="flex items-center gap-2"><span class="w-3 h-3 rounded-full bg-teal-500 inline-block"></span> <span><strong>Cluster 1 (Hijau Toska):</strong> 19 Provinsi Tertinggi</span></li>
@@ -303,8 +318,8 @@
       </div>
     </section>
 
-    <!-- Profil 4 Cluster -->
-    <section id="profil-cluster" class="bg-white/95 rounded-2xl border border-rose-200/80 p-6 sm:p-8 shadow-sm space-y-6">
+    <!-- Profil 4 Cluster (Warna Solid Tanpa Gradasi) -->
+    <section id="profil-cluster" class="bg-white rounded-2xl border border-rose-200 p-6 sm:p-8 shadow-sm space-y-6">
       <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-2">
         <div>
           <h2 class="text-xl font-bold text-stone-900">Karakteristik &amp; Rata-Rata 4 Segmen Cluster</h2>
@@ -316,14 +331,14 @@
       </div>
 
       <div class="grid lg:grid-cols-5 gap-6">
-        <div class="lg:col-span-2 bg-stone-50/90 rounded-2xl border border-stone-200 p-5 flex flex-col justify-center">
+        <div class="lg:col-span-2 bg-[#FAFAF9] rounded-2xl border border-stone-200 p-5 flex flex-col justify-center">
           <canvas id="clusterBarChart" height="265"></canvas>
         </div>
 
         <div class="lg:col-span-3 grid sm:grid-cols-2 gap-4">
-          <!-- Kotak Cluster 1: Emerald / Teal Pastel -->
+          <!-- Kotak Cluster 1: Solid Teal Pastel -->
           <button type="button" onclick="quickFilterCluster('1')"
-                  class="text-left card-lift bg-gradient-to-br from-emerald-50 to-teal-100/70 rounded-2xl border-2 border-teal-300 p-5 shadow-xs focus:outline-none focus:ring-2 focus:ring-teal-500">
+                  class="text-left card-lift bg-[#E6F7F4] rounded-2xl border-2 border-teal-300 p-5 shadow-xs focus:outline-none focus:ring-2 focus:ring-teal-500">
             <div class="flex justify-between items-start">
               <span class="text-xs font-bold uppercase tracking-wider text-white bg-teal-600 px-2.5 py-1 rounded-lg shadow-2xs">Cluster 1</span>
               <span class="text-xs font-bold text-teal-900">19 Provinsi (50,00%)</span>
@@ -337,9 +352,9 @@
             </div>
           </button>
 
-          <!-- Kotak Cluster 2: Plum / Fuchsia Pastel -->
+          <!-- Kotak Cluster 2: Solid Purple Pastel -->
           <button type="button" onclick="quickFilterCluster('2')"
-                  class="text-left card-lift bg-gradient-to-br from-purple-50 to-fuchsia-100/70 rounded-2xl border-2 border-purple-300 p-5 shadow-xs focus:outline-none focus:ring-2 focus:ring-purple-500">
+                  class="text-left card-lift bg-[#F3E8FF] rounded-2xl border-2 border-purple-300 p-5 shadow-xs focus:outline-none focus:ring-2 focus:ring-purple-500">
             <div class="flex justify-between items-start">
               <span class="text-xs font-bold uppercase tracking-wider text-white bg-purple-600 px-2.5 py-1 rounded-lg shadow-2xs">Cluster 2</span>
               <span class="text-xs font-bold text-purple-900">16 Provinsi (42,11%)</span>
@@ -353,9 +368,9 @@
             </div>
           </button>
 
-          <!-- Kotak Cluster 3: Amber / Oranye Pastel -->
+          <!-- Kotak Cluster 3: Solid Amber Pastel -->
           <button type="button" onclick="quickFilterCluster('3')"
-                  class="text-left card-lift bg-gradient-to-br from-amber-50 to-orange-100/70 rounded-2xl border-2 border-amber-300 p-5 shadow-xs focus:outline-none focus:ring-2 focus:ring-amber-500">
+                  class="text-left card-lift bg-[#FEF3C7] rounded-2xl border-2 border-amber-300 p-5 shadow-xs focus:outline-none focus:ring-2 focus:ring-amber-500">
             <div class="flex justify-between items-start">
               <span class="text-xs font-bold uppercase tracking-wider text-white bg-amber-500 px-2.5 py-1 rounded-lg shadow-2xs">Cluster 3</span>
               <span class="text-xs font-bold text-amber-900">1 Provinsi (2,63%)</span>
@@ -369,9 +384,9 @@
             </div>
           </button>
 
-          <!-- Kotak Cluster 4: Rose / Coral Pastel -->
+          <!-- Kotak Cluster 4: Solid Rose Pastel -->
           <button type="button" onclick="quickFilterCluster('4')"
-                  class="text-left card-lift bg-gradient-to-br from-rose-50 to-pink-100/70 rounded-2xl border-2 border-rose-300 p-5 shadow-xs focus:outline-none focus:ring-2 focus:ring-rose-500">
+                  class="text-left card-lift bg-[#FFE4E6] rounded-2xl border-2 border-rose-300 p-5 shadow-xs focus:outline-none focus:ring-2 focus:ring-rose-500">
             <div class="flex justify-between items-start">
               <span class="text-xs font-bold uppercase tracking-wider text-white bg-rose-500 px-2.5 py-1 rounded-lg shadow-2xs">Cluster 4</span>
               <span class="text-xs font-bold text-rose-900">2 Provinsi (5,26%)</span>
@@ -391,7 +406,7 @@
     <!-- Analisis Drop-off & Head-to-Head Compare -->
     <div class="grid lg:grid-cols-2 gap-6">
       <!-- Analisis Drop-off -->
-      <section id="dropoff" class="bg-gradient-to-b from-white to-amber-50/70 rounded-2xl border border-amber-200/90 p-6 shadow-sm flex flex-col justify-between">
+      <section id="dropoff" class="bg-white rounded-2xl border border-amber-200 p-6 shadow-sm flex flex-col justify-between">
         <div>
           <div class="flex items-center justify-between gap-2 mb-4">
             <div>
@@ -404,17 +419,17 @@
         </div>
 
         <div class="mt-4 space-y-2 text-xs">
-          <div class="p-3 rounded-xl bg-purple-100/70 border border-purple-200 text-stone-800">
+          <div class="p-3 rounded-xl bg-[#F3E8FF] border border-purple-200 text-stone-800">
             <strong class="text-purple-950">Cluster 2 (-34,03 poin):</strong> APM SD tinggi (95,70%), namun turun drastis 19,87 poin di SMP dan 14,16 poin lagi saat masuk SMA/SMK (61,67%).
           </div>
-          <div class="p-3 rounded-xl bg-amber-100/70 border border-amber-200 text-stone-800">
+          <div class="p-3 rounded-xl bg-[#FEF3C7] border border-amber-200 text-stone-800">
             <strong class="text-amber-950">Cluster 3 (-42,16 poin):</strong> Papua Selatan mengalami kebocoran terbesar pada transisi SD ke SMP (merosot 29,92 poin dari 87,64% ke 57,72%).
           </div>
         </div>
       </section>
 
       <!-- Head-to-Head Compare -->
-      <section id="head-to-head" class="bg-gradient-to-b from-white to-emerald-50/70 rounded-2xl border border-emerald-200/90 p-6 shadow-sm flex flex-col justify-between">
+      <section id="head-to-head" class="bg-white rounded-2xl border border-emerald-200 p-6 shadow-sm flex flex-col justify-between">
         <div>
           <div class="flex items-center justify-between gap-2 mb-4">
             <div>
@@ -443,7 +458,7 @@
     </div>
 
     <!-- Rincian Angka APM 38 Provinsi (Data Riil BPS 2025) -->
-    <section id="eksplorasi-provinsi" class="bg-white/95 rounded-2xl border border-orange-200/80 p-6 sm:p-8 shadow-sm">
+    <section id="eksplorasi-provinsi" class="bg-white rounded-2xl border border-orange-200 p-6 sm:p-8 shadow-sm">
       <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-5 border-b border-stone-200">
         <div>
           <h2 class="text-xl font-bold text-stone-900">Rincian Angka APM 38 Provinsi (Data BPS 2025)</h2>
@@ -484,13 +499,13 @@
         <div class="lg:col-span-2">
           <label for="searchInput" class="block text-[11px] font-semibold uppercase tracking-wider text-stone-500 mb-1">Cari Provinsi</label>
           <input type="text" id="searchInput" placeholder="Ketik nama provinsi (mis. LAMPUNG, PAPUA, DI YOGYAKARTA)..."
-                 class="w-full px-3.5 py-2 text-sm border border-orange-200 rounded-xl bg-orange-50/40 focus:bg-white focus:outline-none focus:ring-2 focus:ring-rose-500 transition">
+                 class="w-full px-3.5 py-2 text-sm border border-orange-200 rounded-xl bg-[#FFFBF7] focus:bg-white focus:outline-none focus:ring-2 focus:ring-rose-500 transition">
         </div>
 
         <div>
           <label for="sortSelect" class="block text-[11px] font-semibold uppercase tracking-wider text-stone-500 mb-1">Urutkan Berdasarkan</label>
           <select id="sortSelect"
-                  class="w-full px-3.5 py-2 text-sm border border-orange-200 rounded-xl bg-orange-50/40 focus:bg-white focus:outline-none focus:ring-2 focus:ring-rose-500 transition">
+                  class="w-full px-3.5 py-2 text-sm border border-orange-200 rounded-xl bg-[#FFFBF7] focus:bg-white focus:outline-none focus:ring-2 focus:ring-rose-500 transition">
             <option value="cluster-asc">Cluster (1 &rarr; 4)</option>
             <option value="sm-desc">APM SMA/SMK (Tertinggi &rarr; Terendah)</option>
             <option value="sm-asc">APM SMA/SMK (Terendah &rarr; Tertinggi)</option>
@@ -508,8 +523,8 @@
 
   </main>
 
-  <!-- Footer -->
-  <footer class="border-t border-orange-200/80 bg-gradient-to-r from-amber-100/70 via-rose-50/70 to-emerald-100/70 text-stone-600 py-8 mt-12">
+  <!-- Footer Solid -->
+  <footer class="border-t border-orange-200 bg-[#FCEEE3] text-stone-600 py-8 mt-12">
     <div class="max-w-6xl mx-auto px-4 sm:px-6 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 text-xs">
       <div>
         <p class="font-bold text-stone-900 text-sm">Analisis Pengelompokan Provinsi Berdasarkan Angka Partisipasi Murni (APM) Tahun 2025</p>
@@ -587,19 +602,19 @@
       btns[mode].classList.remove('text-stone-600');
 
       if (mode === 'both') {
-        grid.className = 'grid lg:grid-cols-5 gap-8 items-start';
-        corrBox.className = 'lg:col-span-2 bg-rose-50/75 border border-rose-200 rounded-2xl p-5';
-        distBox.className = 'lg:col-span-3 bg-emerald-50/70 border border-emerald-200 rounded-2xl p-5';
+        grid.className = 'grid lg:grid-cols-12 gap-8 items-start';
+        corrBox.className = 'lg:col-span-5 bg-[#FFF5F5] border border-red-200 rounded-2xl p-5';
+        distBox.className = 'lg:col-span-7 bg-[#F0FDF4] border border-emerald-200 rounded-2xl p-5';
         corrBox.classList.remove('hidden');
         distBox.classList.remove('hidden');
       } else if (mode === 'corr') {
         grid.className = 'grid grid-cols-1';
-        corrBox.className = 'bg-rose-50/75 border border-rose-200 rounded-2xl p-5 max-w-xl mx-auto w-full';
+        corrBox.className = 'bg-[#FFF5F5] border border-red-200 rounded-2xl p-5 max-w-xl mx-auto w-full';
         corrBox.classList.remove('hidden');
         distBox.classList.add('hidden');
       } else {
         grid.className = 'grid grid-cols-1';
-        distBox.className = 'bg-emerald-50/70 border border-emerald-200 rounded-2xl p-5';
+        distBox.className = 'bg-[#F0FDF4] border border-emerald-200 rounded-2xl p-5';
         corrBox.classList.add('hidden');
         distBox.classList.remove('hidden');
       }
@@ -647,7 +662,7 @@
           provinces.filter(p => p.sm >= 65 && p.sm < 72).length,
           provinces.filter(p => p.sm >= 72 && p.sm <= 80).length
         ],
-        color: '#F43F5E',
+        color: '#E11D48',
         caption: 'Rentang nilai paling lebar (35,59% di PAPUA TENGAH hingga 78,42% di DI YOGYAKARTA). Terlihat jelas pemisahan keempat cluster.'
       }
     };
@@ -706,8 +721,8 @@
           {
             label: 'Davies-Bouldin Index (↓)',
             data: [0.3662, 0.6197, 0.4471, 0.6100, 0.6602, 0.7037, 0.6636, 0.6554, 0.5934],
-            borderColor: '#F43F5E',
-            backgroundColor: '#F43F5E',
+            borderColor: '#E11D48',
+            backgroundColor: '#E11D48',
             tension: 0.35,
             borderWidth: 2.5
           }
@@ -755,7 +770,7 @@
           { label: 'Cluster 1 (19 Prov)', data: c1Pts, backgroundColor: '#14B8A6', pointRadius: 6, pointHoverRadius: 8.5 },
           { label: 'Cluster 2 (16 Prov)', data: c2Pts, backgroundColor: '#9333EA', pointRadius: 6, pointHoverRadius: 8.5 },
           { label: 'Cluster 3 (PAPUA SELATAN)', data: c3Pts, backgroundColor: '#F59E0B', pointRadius: 8, pointHoverRadius: 10 },
-          { label: 'Cluster 4 (2 Prov)', data: c4Pts, backgroundColor: '#F43F5E', pointRadius: 7, pointHoverRadius: 9 },
+          { label: 'Cluster 4 (2 Prov)', data: c4Pts, backgroundColor: '#E11D48', pointRadius: 7, pointHoverRadius: 9 },
           {
             label: 'Centroid',
             data: [
@@ -795,7 +810,7 @@
           { label: 'Cluster 1 (Tertinggi)', data: [97.22, 81.97, 70.55], backgroundColor: '#14B8A6', borderRadius: 4 },
           { label: 'Cluster 2 (Menengah Atas)', data: [95.70, 75.83, 61.67], backgroundColor: '#9333EA', borderRadius: 4 },
           { label: 'Cluster 3 (Papua Selatan)', data: [87.64, 57.72, 45.48], backgroundColor: '#F59E0B', borderRadius: 4 },
-          { label: 'Cluster 4 (Terendah)', data: [73.70, 55.24, 37.73], backgroundColor: '#F43F5E', borderRadius: 4 }
+          { label: 'Cluster 4 (Terendah)', data: [73.70, 55.24, 37.73], backgroundColor: '#E11D48', borderRadius: 4 }
         ]
       },
       options: {
@@ -849,7 +864,7 @@
           labels: ['APM SD', 'APM SMP', 'APM SMA/SMK'],
           datasets: [
             { label: pA.name, data: [pA.sd, pA.smp, pA.sm], backgroundColor: '#14B8A6', borderRadius: 4 },
-            { label: pB.name, data: [pB.sd, pB.smp, pB.sm], backgroundColor: '#F43F5E', borderRadius: 4 }
+            { label: pB.name, data: [pB.sd, pB.smp, pB.sm], backgroundColor: '#E11D48', borderRadius: 4 }
           ]
         },
         options: {
@@ -868,7 +883,7 @@
       document.getElementById('compareStatsGrid').innerHTML = items.map(it => {
         const sign = it.diff > 0 ? '+' : '';
         return `
-          <div class="p-2.5 rounded-xl bg-white border border-emerald-200 shadow-2xs">
+          <div class="p-2.5 rounded-xl bg-[#F0FDF4] border border-emerald-200 shadow-2xs">
             <p class="text-[11px] text-stone-500">${it.label}</p>
             <p class="font-bold text-sm text-stone-900 mt-0.5">${sign}${it.diff} poin</p>
           </div>
@@ -880,33 +895,33 @@
     selectB.addEventListener('change', updateHeadToHead);
     updateHeadToHead();
 
-    // 7. Render Kartu 38 Provinsi
+    // 7. Render Kartu 38 Provinsi (Latar Belakang Solid Tanpa Gradasi)
     let activeCluster = 'all';
 
     const badgeStyles = {
       1: {
         label: 'Cluster 1 • Tertinggi',
-        card: 'bg-gradient-to-br from-emerald-50 to-teal-100/60 border-teal-200',
+        card: 'bg-[#E6F7F4] border-teal-200',
         cls: 'bg-teal-600 text-white border-teal-600',
-        bar: 'bg-teal-500'
+        bar: 'bg-teal-600'
       },
       2: {
         label: 'Cluster 2 • Menengah Atas',
-        card: 'bg-gradient-to-br from-purple-50 to-fuchsia-100/60 border-purple-200',
+        card: 'bg-[#F3E8FF] border-purple-200',
         cls: 'bg-purple-600 text-white border-purple-600',
         bar: 'bg-purple-600'
       },
       3: {
         label: 'Cluster 3 • Khusus',
-        card: 'bg-gradient-to-br from-amber-50 to-orange-100/60 border-amber-200',
+        card: 'bg-[#FEF3C7] border-amber-200',
         cls: 'bg-amber-500 text-white border-amber-500',
         bar: 'bg-amber-500'
       },
       4: {
         label: 'Cluster 4 • Terendah',
-        card: 'bg-gradient-to-br from-rose-50 to-pink-100/60 border-rose-200',
-        cls: 'bg-rose-500 text-white border-rose-500',
-        bar: 'bg-rose-500'
+        card: 'bg-[#FFE4E6] border-rose-200',
+        cls: 'bg-rose-600 text-white border-rose-600',
+        bar: 'bg-rose-600'
       }
     };
 
@@ -984,7 +999,7 @@
                 <span>APM SD</span>
                 <span class="font-bold text-stone-900">${p.sd.toFixed(2)}%</span>
               </div>
-              <div class="w-full h-2 bg-white/80 rounded-full overflow-hidden">
+              <div class="w-full h-2 bg-white rounded-full overflow-hidden">
                 <div class="h-full ${badgeStyles[p.cluster].bar}" style="width: ${p.sd}%"></div>
               </div>
             </div>
@@ -994,7 +1009,7 @@
                 <span>APM SMP</span>
                 <span class="font-bold text-stone-900">${p.smp.toFixed(2)}%</span>
               </div>
-              <div class="w-full h-2 bg-white/80 rounded-full overflow-hidden">
+              <div class="w-full h-2 bg-white rounded-full overflow-hidden">
                 <div class="h-full ${badgeStyles[p.cluster].bar} opacity-85" style="width: ${p.smp}%"></div>
               </div>
             </div>
@@ -1004,7 +1019,7 @@
                 <span>APM SMA/SMK</span>
                 <span class="font-bold text-stone-900">${p.sm.toFixed(2)}%</span>
               </div>
-              <div class="w-full h-2 bg-white/80 rounded-full overflow-hidden">
+              <div class="w-full h-2 bg-white rounded-full overflow-hidden">
                 <div class="h-full ${badgeStyles[p.cluster].bar} opacity-70" style="width: ${p.sm}%"></div>
               </div>
             </div>
